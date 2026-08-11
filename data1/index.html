@@ -51,7 +51,12 @@
     <header class="sticky top-0 z-50 bg-slate-900 text-white shadow-lg border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="p-2 bg-sky-600 rounded-lg">
+                <!-- Home Button (Left Side Icon Button) -->
+                <a href="../index.html" title="홈으로 이동" class="p-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-slate-200 hover:text-white transition-colors flex items-center justify-center group shrink-0">
+                    <i data-lucide="home" class="w-5 h-5 text-sky-400 group-hover:scale-110 transition-transform"></i>
+                </a>
+                <div class="h-6 w-px bg-slate-800 hidden sm:block"></div>
+                <div class="p-2 bg-sky-600 rounded-lg shrink-0">
                     <i data-lucide="book-open-check" class="w-6 h-6 text-white"></i>
                 </div>
                 <div>
@@ -60,7 +65,12 @@
                 </div>
             </div>
             <div class="flex items-center space-x-2 text-xs sm:text-sm">
-                <span class="bg-sky-900/60 text-sky-300 border border-sky-700/50 px-3 py-1 rounded-full font-medium flex items-center gap-1.5">
+                <!-- Home Navigation Button (Right Side Label Button) -->
+                <a href="../index.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-medium transition-colors text-xs shadow-sm">
+                    <i data-lucide="home" class="w-4 h-4"></i>
+                    <span>홈으로</span>
+                </a>
+                <span class="hidden md:flex bg-sky-900/60 text-sky-300 border border-sky-700/50 px-3 py-1 rounded-full font-medium items-center gap-1.5">
                     <i data-lucide="pie-chart" class="w-4 h-4 text-sky-400"></i> 전국 798개 학과 종합 진단
                 </span>
             </div>
