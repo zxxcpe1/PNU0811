@@ -34,7 +34,7 @@
                             700: '#b91c1c',
                         },
                         warning: {
-                            50: '#fffbebe',
+                            50: '#fffbeb',
                             500: '#f59e0b',
                         }
                     }
@@ -57,6 +57,10 @@
     <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
+                <!-- 홈 버튼 추가 -->
+                <a href="../index.html" class="p-2 bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white rounded-lg border border-slate-700 hover:border-blue-500 transition flex items-center justify-center" title="메인 페이지로 이동">
+                    <i class="fa-solid fa-house text-lg"></i>
+                </a>
                 <div class="p-2 bg-blue-600 rounded-lg text-white">
                     <i class="fa-solid fa-bicycle text-xl"></i>
                 </div>
@@ -504,8 +508,8 @@
                 </div>
 
                 <!-- Dynamic Simulation Result Card -->
-                <div id="simResult" class="p-5 rounded-xl border bg-slate-50 space-y-4">
-                    <!-- JavaScript populated -->
+                <div id="simResult" class="p-6 rounded-xl bg-slate-50 border border-slate-200 space-y-4">
+                    <!-- Populated via JavaScript -->
                 </div>
             </div>
         </div>
@@ -513,79 +517,78 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 text-xs py-6 border-t border-slate-800 mt-12">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
-            <p>2024-2025 자전거 교통사고 통계 분석 및 안전 대책 심층 보고서 | 데이터 출처: 도로교통공단 사고 전수 데이터 세트</p>
-            <p class="text-slate-500">본 대시보드는 교통안전 데이터 사이언티스트 및 도시교통공학 연구진의 정책 건의를 위해 제작되었습니다.</p>
+    <footer class="bg-slate-900 text-slate-400 text-xs py-6 border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+                <p class="font-semibold text-slate-300">2024-2025 자전거 교통사고 통계 분석 보고서</p>
+                <p class="text-slate-500 mt-0.5">본 분석 보고서는 제공된 통계 전수 데이터를 바탕으로 작성되었습니다.</p>
+            </div>
+            <div class="flex items-center space-x-4 text-slate-500">
+                <span><i class="fa-solid fa-database me-1"></i> 데이터출처: 교통사고분석시스템(TAAS) 종합</span>
+            </div>
         </div>
     </footer>
 
+    <!-- JavaScript Data & Logic -->
     <script>
-        // Data Store based on provided report
+        // Raw Data Sets
         const monthlyData = [
-            { month: '01월', mNum: 1, acc24: 433, death24: 10, inj24: 450, acc25: 204, death25: 5, inj25: 205 },
-            { month: '02월', mNum: 2, acc24: 376, death24: 4, inj24: 394, acc25: 184, death25: 3, inj25: 193 },
-            { month: '03월', mNum: 3, acc24: 691, death24: 12, inj24: 747, acc25: 362, death25: 8, inj25: 384 },
-            { month: '04월', mNum: 4, acc24: 1075, death24: 16, inj24: 1172, acc25: 507, death25: 7, inj25: 546 },
-            { month: '05월', mNum: 5, acc24: 1216, death24: 9, inj24: 1355, acc25: 549, death25: 3, inj25: 609 },
-            { month: '06월', mNum: 6, acc24: 1291, death24: 14, inj24: 1415, acc25: 605, death25: 9, inj25: 657 },
-            { month: '07월', mNum: 7, acc24: 1097, death24: 14, inj24: 1185, acc25: 577, death25: 9, inj25: 622 },
-            { month: '08월', mNum: 8, acc24: 1123, death24: 22, inj24: 1220, acc25: 558, death25: 12, inj25: 603 },
-            { month: '09월', mNum: 9, acc24: 1098, death24: 16, inj24: 1216, acc25: 556, death25: 8, inj25: 621 },
-            { month: '10월', mNum: 10, acc24: 968, death24: 17, inj24: 1059, acc25: 447, death25: 8, inj25: 491 },
-            { month: '11월', mNum: 11, acc24: 883, death24: 16, inj24: 938, acc25: 413, death25: 8, inj25: 432 },
-            { month: '12월', mNum: 12, acc24: 555, death24: 10, inj24: 589, acc25: 273, death25: 5, inj25: 292 }
+            { month: '01월', a24: 433, d24: 10, i24: 457, f24: 2.31, a25: 231, d25: 3, i25: 247, f25: 1.30, risk: '고치명 경고' },
+            { month: '02월', a24: 462, d24: 4, i24: 497, f24: 0.87, a25: 234, d25: 4, i25: 248, f25: 1.71, risk: '주의' },
+            { month: '03월', a24: 835, d24: 12, i24: 906, f24: 1.44, a25: 395, d25: 7, i25: 423, f25: 1.77, risk: '경고' },
+            { month: '04월', a24: 1083, d24: 13, i24: 1184, f24: 1.20, a25: 458, d25: 5, i25: 494, f25: 1.09, risk: '주의' },
+            { month: '05월', a24: 1211, d24: 14, i24: 1324, f24: 1.16, a25: 549, d25: 8, i25: 586, f25: 1.46, risk: '다발 위험' },
+            { month: '06월', a24: 1294, d24: 14, i24: 1424, f24: 1.08, a25: 605, d25: 9, i25: 651, f25: 1.49, risk: '최다 다발' },
+            { month: '07월', a24: 928, d24: 15, i24: 1007, f24: 1.62, a25: 577, d25: 9, i25: 622, f25: 1.56, risk: '고치명 경고' },
+            { month: '08월', a24: 1123, d24: 22, i24: 1205, f24: 1.96, a25: 532, d25: 12, i25: 571, f25: 2.26, risk: '최고 위험' },
+            { month: '09월', a24: 1111, d24: 19, i24: 1206, f24: 1.71, a25: 508, d25: 8, i25: 556, f25: 1.57, risk: '다발 경고' },
+            { month: '10월', a24: 1089, d24: 17, i24: 1173, f24: 1.56, a25: 489, d25: 9, i25: 529, f25: 1.84, risk: '경고' },
+            { month: '11월', a24: 778, d24: 12, i24: 839, f24: 1.54, a25: 412, d25: 6, i25: 446, f25: 1.46, risk: '주의' },
+            { month: '12월', a24: 459, d24: 8, i24: 518, f24: 1.74, a25: 245, d25: 5, i25: 282, f25: 2.04, risk: '고치명 경고' }
         ];
 
         const dayData = {
             labels: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
-            y2024: [737, 750, 896, 816, 881, 793, 668],
-            y2025: [610, 620, 800, 680, 831, 666, 646]
+            y2024: [812, 854, 896, 843, 881, 793, 668],
+            y2025: [752, 784, 800, 788, 831, 666, 646]
         };
 
-        let accidentsChart, fatalityChart, dayChart;
+        // Tab Switcher
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('#reportTabs button').forEach(el => {
+                el.classList.remove('tab-active');
+                el.classList.add('text-slate-500');
+            });
 
-        // Initialize Application on DOM Load
-        window.onload = function() {
-            renderTable();
-            initCharts();
-            runSimulation();
-        };
+            document.getElementById(`content-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            activeBtn.classList.add('tab-active');
+            activeBtn.classList.remove('text-slate-500');
+        }
 
-        function renderTable() {
+        // Render Table
+        function renderTable(data = monthlyData) {
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = '';
-
-            monthlyData.forEach(d => {
-                const fat24 = ((d.death24 / d.acc24) * 100).toFixed(2);
-                const fat25 = ((d.death25 / d.acc25) * 100).toFixed(2);
-
-                // Determine risk badge
-                let riskClass = 'risk-badge-low';
-                let riskLabel = '보통';
-                if (parseFloat(fat24) >= 1.9 || d.mNum === 8 || d.mNum === 1) {
-                    riskClass = 'risk-badge-high';
-                    riskLabel = '최고위험';
-                } else if (parseFloat(fat24) >= 1.4 || d.mNum === 5 || d.mNum === 6) {
-                    riskClass = 'risk-badge-mid';
-                    riskLabel = '주의(집중)';
-                }
+            data.forEach(row => {
+                let badgeClass = 'risk-badge-low';
+                if (row.risk.includes('최고') || row.risk.includes('최다')) badgeClass = 'risk-badge-high';
+                else if (row.risk.includes('경고') || row.risk.includes('다발')) badgeClass = 'risk-badge-mid';
 
                 const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-50 transition border-b border-slate-100';
+                tr.className = 'hover:bg-slate-50/80 transition';
                 tr.innerHTML = `
-                    <td class="py-3 px-4 font-bold text-slate-900">${d.month}</td>
-                    <td class="py-3 px-4 text-center bg-blue-50/20">${d.acc24.toLocaleString()}</td>
-                    <td class="py-3 px-4 text-center bg-blue-50/20 font-semibold text-red-600">${d.death24}</td>
-                    <td class="py-3 px-4 text-center bg-blue-50/20">${d.inj24.toLocaleString()}</td>
-                    <td class="py-3 px-4 text-center bg-blue-100/30 font-bold text-blue-900">${fat24}%</td>
-                    <td class="py-3 px-4 text-center bg-indigo-50/20">${d.acc25.toLocaleString()}</td>
-                    <td class="py-3 px-4 text-center bg-indigo-50/20 font-semibold text-red-600">${d.death25}</td>
-                    <td class="py-3 px-4 text-center bg-indigo-50/20">${d.inj25.toLocaleString()}</td>
-                    <td class="py-3 px-4 text-center bg-indigo-100/30 font-bold text-indigo-900">${fat25}%</td>
-                    <td class="py-3 px-4 text-center">
-                        <span class="px-2 py-0.5 rounded-full text-xs font-semibold ${riskClass}">${riskLabel}</span>
-                    </td>
+                    <td class="py-3 px-4 font-bold text-slate-900">${row.month}</td>
+                    <td class="py-3 px-4 text-center bg-blue-50/20">${row.a24.toLocaleString()}</td>
+                    <td class="py-3 px-4 text-center bg-blue-50/20 text-red-600 font-medium">${row.d24}</td>
+                    <td class="py-3 px-4 text-center bg-blue-50/20 text-slate-500">${row.i24.toLocaleString()}</td>
+                    <td class="py-3 px-4 text-center bg-blue-100/30 font-bold ${row.f24 >= 1.8 ? 'text-red-600 font-black' : 'text-slate-700'}">${row.f24.toFixed(2)}%</td>
+                    <td class="py-3 px-4 text-center bg-indigo-50/20">${row.a25.toLocaleString()}</td>
+                    <td class="py-3 px-4 text-center bg-indigo-50/20 text-red-600 font-medium">${row.d25}</td>
+                    <td class="py-3 px-4 text-center bg-indigo-50/20 text-slate-500">${row.i25.toLocaleString()}</td>
+                    <td class="py-3 px-4 text-center bg-indigo-100/30 font-bold ${row.f25 >= 1.8 ? 'text-red-600 font-black' : 'text-slate-700'}">${row.f25.toFixed(2)}%</td>
+                    <td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded-full text-xs font-semibold ${badgeClass}">${row.risk}</span></td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -593,37 +596,136 @@
 
         function filterTable() {
             const query = document.getElementById('tableSearch').value.toLowerCase();
-            const rows = document.querySelectorAll('#tableBody tr');
-            rows.forEach(row => {
-                const monthText = row.children[0].innerText.toLowerCase();
-                if (monthText.includes(query)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
+            const filtered = monthlyData.filter(d => d.month.toLowerCase().includes(query));
+            renderTable(filtered);
         }
 
-        function initCharts() {
-            const labels = monthlyData.map(d => d.month);
+        // Simulator Logic
+        function runSimulation() {
+            const m = parseInt(document.getElementById('simMonth').value);
+            const d = document.getElementById('simDay').value;
+            const container = document.getElementById('simResult');
 
-            // Chart 1: Accidents Comparison
+            // Find month data
+            const monthObj = monthlyData[m - 1];
+            const avgFatality = ((monthObj.f24 + monthObj.f25) / 2).toFixed(2);
+            
+            let isHighDay = (d === 'Wed' || d === 'Fri');
+            let isMidDay = (d === 'Mon' || d === 'Tue' || d === 'Thu' || d === 'Sat');
+            
+            let riskLevel = '보통 (Moderate)';
+            let levelColor = 'text-amber-600';
+            let bgBorder = 'border-amber-200 bg-amber-50/50';
+            let patrolUnit = '기본 순찰 1~2개 조';
+            let actionText = '일반 계도 및 안전모 착용 홍보 위주 수행';
+
+            if ((m === 1 || m === 8 || m === 12) || (isHighDay && (m === 5 || m === 6 || m === 9))) {
+                riskLevel = '최고 위험 (Critical Risk)';
+                levelColor = 'text-red-600';
+                bgBorder = 'border-red-300 bg-red-50';
+                patrolUnit = '가용 인력 100% 투입 (4~5개 특별단속조)';
+                actionText = '음주운전, 신호위반, 야간 미등화 집중 단속 및 이동식 단속 카메라 증설';
+            } else if (isHighDay || m === 5 || m === 6 || m === 7 || m === 9 || m === 10) {
+                riskLevel = '높음 (High Risk)';
+                levelColor = 'text-amber-700';
+                bgBorder = 'border-amber-200 bg-amber-50';
+                patrolUnit = '거점 순찰 3개 조 집중 배치';
+                actionText = '출퇴근 시간대 주요 교차로 교차 단속 및 이륜차/자전거 혼용 도로 계도';
+            }
+
+            container.className = `p-6 rounded-xl border space-y-4 transition-all ${bgBorder}`;
+            container.innerHTML = `
+                <div class="flex justify-between items-center border-b border-slate-200/60 pb-3">
+                    <div>
+                        <span class="text-xs font-semibold text-slate-500 uppercase">진단 결과</span>
+                        <h4 class="text-xl font-black ${levelColor}">${riskLevel}</h4>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-slate-500 block">선택 월 평균 치명도</span>
+                        <span class="text-lg font-bold text-slate-800">${avgFatality}%</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                    <div>
+                        <strong class="text-slate-800 block mb-1"><i class="fa-solid fa-shield-cat me-1 text-blue-600"></i> 권장 단속 자원 배분:</strong>
+                        <p class="text-slate-700 font-medium">${patrolUnit}</p>
+                    </div>
+                    <div>
+                        <strong class="text-slate-800 block mb-1"><i class="fa-solid fa-list-check me-1 text-blue-600"></i> 중점 행정 조치 사항:</strong>
+                        <p class="text-slate-700">${actionText}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize Chart.js Charts
+        document.addEventListener("DOMContentLoaded", function() {
+            renderTable();
+            runSimulation();
+
+            // Monthly Accidents Chart
             const ctx1 = document.getElementById('monthlyAccidentsChart').getContext('2d');
-            accidentsChart = new Chart(ctx1, {
-                type: 'bar',
+            new Chart(ctx1, {
+                type: 'line',
                 data: {
-                    labels: labels,
+                    labels: monthlyData.map(d => d.month),
                     datasets: [
                         {
                             label: '2024년 사고 건수',
-                            data: monthlyData.map(d => d.acc24),
-                            backgroundColor: 'rgba(37, 99, 235, 0.85)',
-                            borderRadius: 4
+                            data: monthlyData.map(d => d.a24),
+                            borderColor: '#2563eb',
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            borderWidth: 2.5,
+                            fill: true,
+                            tension: 0.3,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
                         },
                         {
                             label: '2025년 사고 건수',
-                            data: monthlyData.map(d => d.acc25),
-                            backgroundColor: 'rgba(99, 102, 241, 0.85)',
+                            data: monthlyData.map(d => d.a25),
+                            borderColor: '#6366f1',
+                            backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                            borderWidth: 2.5,
+                            borderDash: [4, 4],
+                            fill: true,
+                            tension: 0.3,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11, family: 'Noto Sans KR' } } },
+                        tooltip: { mode: 'index', intersect: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { font: { size: 10 } } },
+                        x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+                    }
+                }
+            });
+
+            // Fatality Rate Chart
+            const ctx2 = document.getElementById('fatalityRateChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: monthlyData.map(d => d.month),
+                    datasets: [
+                        {
+                            label: '2024년 치명도 (%)',
+                            data: monthlyData.map(d => d.f24),
+                            backgroundColor: monthlyData.map(d => d.f24 >= 1.8 ? 'rgba(239, 68, 68, 0.85)' : 'rgba(37, 99, 235, 0.65)'),
+                            borderRadius: 4
+                        },
+                        {
+                            label: '2025년 치명도 (%)',
+                            data: monthlyData.map(d => d.f25),
+                            backgroundColor: monthlyData.map(d => d.f25 >= 1.8 ? 'rgba(220, 38, 38, 0.85)' : 'rgba(99, 102, 241, 0.5)'),
                             borderRadius: 4
                         }
                     ]
@@ -632,76 +734,38 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'top' },
-                        tooltip: { mode: 'index', intersect: false }
-                    },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
-                        x: { grid: { display: false } }
-                    }
-                }
-            });
-
-            // Chart 2: Fatality Rate Trend
-            const ctx2 = document.getElementById('fatalityRateChart').getContext('2d');
-            fatalityChart = new Chart(ctx2, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: '2024년 치명도 (%)',
-                            data: monthlyData.map(d => parseFloat(((d.death24 / d.acc24) * 100).toFixed(2))),
-                            borderColor: '#dc2626',
-                            backgroundColor: 'rgba(220, 38, 38, 0.1)',
-                            fill: true,
-                            tension: 0.3,
-                            borderWidth: 2,
-                            pointRadius: 4
-                        },
-                        {
-                            label: '2025년 치명도 (%)',
-                            data: monthlyData.map(d => parseFloat(((d.death25 / d.acc25) * 100).toFixed(2))),
-                            borderColor: '#f59e0b',
-                            backgroundColor: 'transparent',
-                            borderDash: [5, 5],
-                            tension: 0.3,
-                            borderWidth: 2,
-                            pointRadius: 4
+                        legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11, family: 'Noto Sans KR' } } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) { return context.dataset.label + ': ' + context.parsed.y + '%'; }
+                            }
                         }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'top' }
                     },
                     scales: {
-                        y: { beginAtZero: true, title: { display: true, text: '치명도 (%)' }, grid: { color: '#f1f5f9' } },
-                        x: { grid: { display: false } }
+                        y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { callback: v => v + '%', font: { size: 10 } } },
+                        x: { grid: { display: false }, ticks: { font: { size: 10 } } }
                     }
                 }
             });
 
-            // Chart 3: Day of Week Chart
+            // Day of Week Chart
             const ctx3 = document.getElementById('dayOfWeekChart').getContext('2d');
-            dayChart = new Chart(ctx3, {
+            new Chart(ctx3, {
                 type: 'bar',
                 data: {
                     labels: dayData.labels,
                     datasets: [
                         {
-                            label: '2024년 요일별 사고',
+                            label: '2024년 사고 건수',
                             data: dayData.y2024,
-                            backgroundColor: 'rgba(30, 41, 59, 0.85)',
-                            borderRadius: 4
+                            backgroundColor: dayData.y2024.map(v => (v === 896 || v === 881) ? '#ef4444' : '#3b82f6'),
+                            borderRadius: 6
                         },
                         {
-                            label: '2025년 요일별 사고',
+                            label: '2025년 사고 건수',
                             data: dayData.y2025,
-                            backgroundColor: 'rgba(59, 130, 246, 0.85)',
-                            borderRadius: 4
+                            backgroundColor: dayData.y2025.map(v => (v === 831 || v === 800) ? '#dc2626' : '#818cf8'),
+                            borderRadius: 6
                         }
                     ]
                 },
@@ -709,103 +773,15 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'top' }
+                        legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11, family: 'Noto Sans KR' } } }
                     },
                     scales: {
-                        y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
-                        x: { grid: { display: false } }
+                        y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { font: { size: 10 } } },
+                        x: { grid: { display: false }, ticks: { font: { size: 11, weight: '600' } } }
                     }
                 }
             });
-        }
-
-        function switchTab(tabId) {
-            // Hide all tab contents
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            
-            // Deactivate all tab buttons
-            document.querySelectorAll('#reportTabs button').forEach(btn => {
-                btn.classList.remove('tab-active');
-                btn.classList.add('text-slate-500');
-            });
-
-            // Show target content & set active button
-            document.getElementById(`content-${tabId}`).classList.remove('hidden');
-            const activeBtn = document.getElementById(`tab-${tabId}`);
-            activeBtn.classList.add('tab-active');
-            activeBtn.classList.remove('text-slate-500');
-        }
-
-        function runSimulation() {
-            const month = parseInt(document.getElementById('simMonth').value);
-            const day = document.getElementById('simDay').value;
-            const resDiv = document.getElementById('simResult');
-
-            let riskScore = 50;
-            let level = '보통 (Moderate)';
-            let colorClass = 'border-blue-200 bg-blue-50 text-blue-900';
-            let icon = 'fa-circle-info';
-            let actions = [];
-
-            // Month Factor
-            if (month === 1) {
-                riskScore += 40;
-                actions.push('동절기 결빙 대응: 도로 열선 가동 및 미끄럼방지 포장 집중 점검');
-                actions.push('저빈도 고치명기: 음지 구간 주의 표지판 수시 배치');
-            } else if (month === 8) {
-                riskScore += 35;
-                actions.push('하절기 야간 특화: 야간 전조등/후미등 의무 착용 단속 강화');
-                actions.push('열대야 라이더 대응: 음주 운전 및 신호위반 야간 순찰');
-            } else if (month === 5 || month === 6 || month === 9) {
-                riskScore += 25;
-                actions.push('사고 다발 피크기: 자전거 전용도로 주요 교차로 인력 유동 배치');
-            } else if (month === 7) {
-                riskScore += 20;
-                actions.push('장마/폭염 대비: 헬멧 착용 집중 지도 및 수막현상 주의 경고');
-            }
-
-            // Day Factor
-            if (day === 'Wed' || day === 'Fri') {
-                riskScore += 20;
-                actions.push('주중 고위험 요일: 출퇴근시간(08~09시, 18~20시) 이동식 순찰 150% 증편');
-            } else if (day === 'Sun') {
-                riskScore -= 15;
-                actions.push('최저 위험 요일: 기본 자전거 도로 통제 유지 및 인프라 보수 수행');
-            } else if (day === 'Sat') {
-                riskScore += 10;
-                actions.push('주말 레저 대응: 하천변 자전거 전용도로 보행자 혼용 구간 계도');
-            }
-
-            // Final score capping
-            riskScore = Math.min(Math.max(riskScore, 10), 99);
-
-            if (riskScore >= 80) {
-                level = '최고 위험 (CRITICAL RISK)';
-                colorClass = 'border-red-300 bg-red-50 text-red-950';
-                icon = 'fa-triangle-exclamation text-red-600';
-            } else if (riskScore >= 60) {
-                level = '주의 및 단속 강화 (HIGH RISK)';
-                colorClass = 'border-amber-300 bg-amber-50 text-amber-950';
-                icon = 'fa-triangle-exclamation text-amber-600';
-            }
-
-            resDiv.className = `p-5 rounded-xl border ${colorClass} space-y-3 transition-all`;
-            resDiv.innerHTML = `
-                <div class="flex justify-between items-center border-b border-black/10 pb-3">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid ${icon} text-xl"></i>
-                        <span class="font-bold text-sm">위험 평가 등급: ${level}</span>
-                    </div>
-                    <span class="text-2xl font-black font-mono">${riskScore} <span class="text-xs font-normal">/ 100</span></span>
-                </div>
-                <div>
-                    <h5 class="text-xs font-bold uppercase tracking-wider mb-2">권장 데이터 기반 안전 대책:</h5>
-                    <ul class="text-xs space-y-1.5 list-disc list-inside">
-                        ${actions.map(a => `<li>${a}</li>`).join('')}
-                    </ul>
-                </div>
-            `;
-        }
+        });
     </script>
 </body>
 </html>
