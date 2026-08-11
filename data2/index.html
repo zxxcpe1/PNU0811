@@ -57,10 +57,6 @@
     <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
-                <!-- 홈 버튼 추가 -->
-                <a href="../index.html" title="메인 페이지로 이동" class="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg border border-slate-700 transition flex items-center justify-center">
-                    <i class="fa-solid fa-house text-lg"></i>
-                </a>
                 <div class="p-2 bg-blue-600 rounded-lg text-white">
                     <i class="fa-solid fa-bicycle text-xl"></i>
                 </div>
@@ -216,6 +212,26 @@
                     </div>
                     <div class="relative h-72">
                         <canvas id="fatalityRateChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Video Section: Monthly Bicycle Accident Trend Video -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 col-span-1 lg:col-span-2">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                                <i class="fa-solid fa-circle-play text-red-500"></i>
+                                월별 자전거 사고 변화 추이 영상
+                            </h3>
+                            <p class="text-xs text-slate-500">2024-2025년 월별 자전거 사고 패턴 및 치명도 변화 시각화 애니메이션 영상</p>
+                        </div>
+                        <span class="text-xs px-2.5 py-1 bg-red-50 text-red-600 rounded-md font-mono font-semibold">MP4</span>
+                    </div>
+                    <div class="relative rounded-xl overflow-hidden bg-slate-900 aspect-video flex items-center justify-center border border-slate-200 shadow-inner max-h-[480px]">
+                        <video controls class="w-full h-full object-contain" preload="metadata">
+                            <source src="월별_자전거_사고_변화_추이.mp4" type="video/mp4">
+                            <p class="text-white text-xs p-4">사용 중인 브라우저가 동영상 재생을 지원하지 않습니다.</p>
+                        </video>
                     </div>
                 </div>
             </div>
