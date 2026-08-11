@@ -1,1004 +1,818 @@
 <!DOCTYPE html>
-<html lang="ko" class="dark scroll-smooth">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>우현 (Woohyun) | 데이터 분석 & 진로/교통 포트폴리오</title>
-    
+    <title>사범계열(일반사회/지리) 학과 지표 및 현황 심층 분석 보고서</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts (Noto Sans KR) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        brand: {
-                            50: '#eef2ff',
-                            100: '#e0e7ff',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                            900: '#312e81',
-                        },
-                        traffic: {
-                            500: '#f59e0b',
-                            600: '#d97706',
-                        },
-                        career: {
-                            500: '#06b6d4',
-                            600: '#0891b2',
-                        }
-                    },
                     fontFamily: {
-                        sans: ['Inter', 'Noto Sans KR', 'sans-serif'],
+                        sans: ['Noto Sans KR', 'sans-serif'],
+                    },
+                    colors: {
+                        edu: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            800: '#0c4a6e',
+                            900: '#0f172a'
+                        }
                     }
                 }
             }
         }
     </script>
-    
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <!-- Chart.js for Data Visualizations -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-
     <style>
-        body {
-            font-family: 'Noto Sans KR', 'Inter', sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        /* Dark Mode Styles */
-        html.dark body {
-            background-color: #0f172a;
-            color: #f8fafc;
-        }
-        html.dark .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        html.dark .glass-nav {
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        /* Light Mode Styles */
-        html:not(.dark) body {
-            background-color: #f8fafc;
-            color: #1e293b;
-        }
-        html:not(.dark) .glass-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(203, 213, 225, 0.8);
-            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-        }
-        html:not(.dark) .glass-nav {
-            background: rgba(255, 255, 255, 0.88);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #4f46e5 0%, #0284c7 50%, #059669 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        html.dark .gradient-text {
-            background: linear-gradient(135deg, #818cf8 0%, #38bdf8 50%, #34d399 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(148, 163, 184, 0.1);
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #64748b;
-            border-radius: 3px;
-        }
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid #e2e8f0; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .tab-btn-active { background-color: #0284c7; color: #ffffff; font-weight: 700; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .tab-btn-inactive { background-color: #f1f5f9; color: #475569; font-weight: 500; }
+        .tab-btn-inactive:hover { background-color: #e2e8f0; color: #0f172a; }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen selection:bg-brand-500 selection:text-white transition-colors duration-300">
+<body class="text-slate-800 antialiased selection:bg-sky-500 selection:text-white">
 
-    <nav class="fixed top-0 left-0 w-full z-50 glass-nav px-4 lg:px-8 py-3 transition-all duration-300">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <a href="#" class="flex items-center gap-2 text-xl font-bold tracking-tight text-slate-900 dark:text-white group">
-                <span class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-black group-hover:scale-105 transition-transform">
-                    우
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-50 bg-slate-900 text-white shadow-lg border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-sky-600 rounded-lg">
+                    <i data-lucide="book-open-check" class="w-6 h-6 text-white"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight sm:text-xl">사범계열(일반사회/지리) 학과 현황 심층 분석</h1>
+                    <p class="text-xs text-slate-400">2024~2025 교육통계 기반 국·사립 주요 지표 비교 대시보드</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2 text-xs sm:text-sm">
+                <span class="bg-sky-900/60 text-sky-300 border border-sky-700/50 px-3 py-1 rounded-full font-medium flex items-center gap-1.5">
+                    <i data-lucide="pie-chart" class="w-4 h-4 text-sky-400"></i> 전국 798개 학과 종합 진단
                 </span>
-                <span>우현<span class="text-brand-500">.Data</span></span>
-            </a>
-
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600 dark:text-slate-300">
-                <a href="../index.html" class="flex items-center gap-1.5 text-brand-600 dark:text-brand-400 font-semibold hover:text-brand-500 transition-colors">
-                    <i data-lucide="home" class="w-4 h-4"></i>
-                    <span>홈</span>
-                </a>
-                <a href="#about" class="hover:text-brand-500 transition-colors">소개</a>
-                <a href="#reports" class="hover:text-brand-500 transition-colors">분석 보고서</a>
-                <a href="#stack" class="hover:text-brand-500 transition-colors">기술 스택</a>
-                <a href="#timeline" class="hover:text-brand-500 transition-colors">활동 연혁</a>
-            </div>
-
-            <div class="hidden md:flex items-center gap-3">
-                <!-- Theme Toggle Button (Desktop) -->
-                <button onclick="toggleTheme()" aria-label="테마 전환" class="p-2 text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white rounded-lg bg-slate-200/80 dark:bg-slate-800 transition-all border border-slate-300 dark:border-slate-700 flex items-center justify-center">
-                    <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
-                    <i data-lucide="moon" class="w-4 h-4 block dark:hidden text-indigo-600"></i>
-                </button>
-
-                <a href="../index.html" class="px-3.5 py-2 text-sm font-medium bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 rounded-lg transition-all border border-slate-300 dark:border-slate-700 flex items-center gap-1.5">
-                    <i data-lucide="home" class="w-4 h-4"></i>
-                    <span>홈으로</span>
-                </a>
-
-                <a href="#contact" class="px-4 py-2 text-sm font-medium bg-brand-600 hover:bg-brand-500 text-white rounded-lg transition-all shadow-lg shadow-brand-500/20 hover:shadow-brand-500/40">
-                    연락하기
-                </a>
-            </div>
-
-            <!-- Mobile Action Group -->
-            <div class="flex items-center gap-2 md:hidden">
-                <a href="../index.html" aria-label="홈으로 이동" class="p-2 text-slate-600 dark:text-slate-300 rounded-lg bg-slate-200/80 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 flex items-center justify-center">
-                    <i data-lucide="home" class="w-5 h-5"></i>
-                </a>
-                <button onclick="toggleTheme()" aria-label="테마 전환" class="p-2 text-slate-600 dark:text-slate-300 rounded-lg bg-slate-200/80 dark:bg-slate-800 border border-slate-300 dark:border-slate-700">
-                    <i data-lucide="sun" class="w-5 h-5 hidden dark:block text-amber-400"></i>
-                    <i data-lucide="moon" class="w-5 h-5 block dark:hidden text-indigo-600"></i>
-                </button>
-                <button id="mobile-menu-btn" class="p-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white focus:outline-none" aria-label="메뉴 열기">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
             </div>
         </div>
+    </header>
 
-        <!-- Mobile Dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden px-4 pt-4 pb-6 border-t border-slate-200 dark:border-slate-800 space-y-3 mt-3">
-            <a href="../index.html" class="flex items-center gap-2 text-brand-600 dark:text-brand-400 font-semibold py-1">
-                <i data-lucide="home" class="w-4 h-4"></i>
-                <span>홈 (상위 페이지)</span>
-            </a>
-            <a href="#about" class="block text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white py-1">소개</a>
-            <a href="#reports" class="block text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white py-1">분석 보고서</a>
-            <a href="#stack" class="block text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white py-1">기술 스택</a>
-            <a href="#timeline" class="block text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-white py-1">활동 연혁</a>
-            <a href="#contact" class="block text-center bg-brand-600 text-white py-2 rounded-lg font-medium mt-2">연락하기</a>
-        </div>
-    </nav>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
-    <section class="relative pt-32 pb-20 md:pt-44 md:pb-32 px-4 overflow-hidden">
-        <!-- Background Glow effects -->
-        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-500/10 dark:bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none"></div>
-        <div class="absolute top-1/3 right-10 w-[300px] h-[300px] bg-cyan-500/10 dark:bg-cyan-500/15 rounded-full blur-[100px] pointer-events-none"></div>
+        <!-- Banner / Key Summary -->
+        <section class="bg-gradient-to-r from-slate-900 via-sky-950 to-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="relative z-10 space-y-4">
+                <div class="inline-flex items-center gap-2 bg-sky-500/20 text-sky-300 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-sky-400/30">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 2025 교육통계 데이터 베이스라인
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-snug">
+                    "국립대 중심 <span class="text-sky-400 underline decoration-sky-500/50 underline-offset-4">입시 경쟁 우위</span>와 사립대 <span class="text-emerald-400 underline decoration-emerald-500/50 underline-offset-4">고비용-장학금 보완</span> 구조"
+                </h2>
+                <p class="text-slate-300 text-sm sm:text-base max-w-4xl leading-relaxed">
+                    전국 798개 사범계열 학과 중 사회과 교육의 핵심인 <strong>일반사회교육과</strong> 및 <strong>지리교육과</strong>를 분석한 결과, 국립대학교는 저렴한 등록금(300만~430만원)을 바탕으로 높은 경쟁률(최고 15.6:1)을 확보하고 있으며, 사립대학교는 높은 등록금(600만~750만원) 속에서도 적극적인 장학금 환원과 취업 성과로 차별화를 모색하고 있습니다.
+                </p>
+            </div>
+        </section>
 
-        <div class="max-w-5xl mx-auto text-center relative z-10">
-            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-200/80 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700 text-xs text-indigo-700 dark:text-indigo-300 mb-6 backdrop-blur-sm">
-                <span class="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                공공데이터 기반 사회문제 해결 & 데이터 분석 포트폴리오
+        <!-- KPI Cards Grid -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+            <div class="glass-card rounded-xl p-5 shadow-sm hover:shadow-md transition">
+                <div class="flex items-center justify-between text-slate-500 mb-2">
+                    <span class="text-xs sm:text-sm font-medium">전국 사범계열 학과</span>
+                    <i data-lucide="graduation-cap" class="w-5 h-5 text-sky-600"></i>
+                </div>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-2xl sm:text-3xl font-extrabold text-slate-900">798</span>
+                    <span class="text-xs text-slate-500">개 학과</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-2">인문사회계열 내 교육 중분류</p>
             </div>
 
-            <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
-                데이터로 세상을 읽고<br class="hidden sm:inline" />
-                <span class="gradient-text">더 나은 인사이트</span>를 만드는 분석가 <span class="text-slate-900 dark:text-white">우현</span>입니다.
-            </h1>
-
-            <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
-                공공데이터를 정제하고 다각도로 분석하여 실제 의사결정에 도움이 되는 시각화 보고서를 작성합니다. 
-                <strong>대학알리미</strong> 기반의 진로 경로 탐색과 <strong>도로교통공단</strong> 데이터 기반의 교통 안전 지표 분석 프로젝트를 확인해보세요.
-            </p>
-
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#reports" class="px-6 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold transition-all shadow-lg shadow-brand-500/25 flex items-center justify-center gap-2 group">
-                    <span>분석 보고서 살펴보기</span>
-                    <i data-lucide="arrow-down" class="w-4 h-4 group-hover:translate-y-0.5 transition-transform"></i>
-                </a>
-                <button onclick="copyEmail()" class="px-6 py-3.5 rounded-xl glass-card text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white font-semibold transition-all flex items-center justify-center gap-2 border border-slate-300 dark:border-slate-700">
-                    <i data-lucide="mail" class="w-4 h-4 text-indigo-600 dark:text-indigo-400"></i>
-                    <span>이메일 복사하기</span>
-                </button>
+            <div class="glass-card rounded-xl p-5 shadow-sm hover:shadow-md transition">
+                <div class="flex items-center justify-between text-slate-500 mb-2">
+                    <span class="text-xs sm:text-sm font-medium">최고 신입생 경쟁률</span>
+                    <i data-lucide="trending-up" class="w-5 h-5 text-indigo-600"></i>
+                </div>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-2xl sm:text-3xl font-extrabold text-slate-900">15.6</span>
+                    <span class="text-xs text-slate-500">: 1</span>
+                </div>
+                <p class="text-xs text-indigo-600 font-medium mt-2">충북대 지리교육과 (전국 1위)</p>
             </div>
 
-            <!-- Stats Highlight Bar -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 text-left max-w-4xl mx-auto">
-                <div class="glass-card p-4 rounded-xl border border-slate-200 dark:border-slate-800">
-                    <div class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">200,000+</div>
-                    <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">분석 데이터 레코드</div>
+            <div class="glass-card rounded-xl p-5 shadow-sm hover:shadow-md transition">
+                <div class="flex items-center justify-between text-slate-500 mb-2">
+                    <span class="text-xs sm:text-sm font-medium">학부 최고 취업률</span>
+                    <i data-lucide="briefcase" class="w-5 h-5 text-emerald-600"></i>
                 </div>
-                <div class="glass-card p-4 rounded-xl border border-slate-200 dark:border-slate-800">
-                    <div class="text-2xl font-bold text-cyan-600 dark:text-cyan-400">2개 핵심</div>
-                    <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">공공기관 빅데이터 프로젝트</div>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-2xl sm:text-3xl font-extrabold text-slate-900">65.0</span>
+                    <span class="text-xs text-slate-500">%</span>
                 </div>
-                <div class="glass-card p-4 rounded-xl border border-slate-200 dark:border-slate-800">
-                    <div class="text-2xl font-bold text-amber-600 dark:text-amber-400">100%</div>
-                    <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">웹 기반 시각화 연동</div>
+                <p class="text-xs text-emerald-600 font-medium mt-2">한국교원대 일반사회 (대학원 100%)</p>
+            </div>
+
+            <div class="glass-card rounded-xl p-5 shadow-sm hover:shadow-md transition">
+                <div class="flex items-center justify-between text-slate-500 mb-2">
+                    <span class="text-xs sm:text-sm font-medium">국·사립 등록금 격차</span>
+                    <i data-lucide="coins" class="w-5 h-5 text-amber-600"></i>
                 </div>
-                <div class="glass-card p-4 rounded-xl border border-slate-200 dark:border-slate-800">
-                    <div class="text-2xl font-bold text-emerald-600 dark:text-emerald-400">4.8 / 5.0</div>
-                    <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">분석 정확도 및 전달력 평가</div>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-2xl sm:text-3xl font-extrabold text-slate-900">2.1</span>
+                    <span class="text-xs text-slate-500">배</span>
+                </div>
+                <p class="text-xs text-amber-600 font-medium mt-2">사립(평균 ~700만) vs 국립(~330만)</p>
+            </div>
+        </section>
+
+        <!-- Dynamic Visualization Chart Section -->
+        <section class="glass-card rounded-2xl p-6 shadow-sm border border-slate-200">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-200">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="bar-chart-2" class="w-5 h-5 text-sky-600"></i> 학과별 지표 시각화 대시보드
+                    </h3>
+                    <p class="text-xs text-slate-500">원하는 주제 탭을 선택하여 세부 학과별 지표 및 국·사립 격차를 대조해 보세요.</p>
+                </div>
+                <!-- Chart Indicator Switcher -->
+                <div class="flex flex-wrap gap-1 bg-slate-100 p-1 rounded-lg text-xs font-semibold">
+                    <button onclick="switchChartTab('soc_comp')" id="chart-tab-soc_comp" class="px-3 py-1.5 rounded-md tab-btn-active transition">일반사회 경쟁률/취업률</button>
+                    <button onclick="switchChartTab('geo_comp')" id="chart-tab-geo_comp" class="px-3 py-1.5 rounded-md tab-btn-inactive transition">지리교육 경쟁률/취업률</button>
+                    <button onclick="switchChartTab('tuition')" id="chart-tab-tuition" class="px-3 py-1.5 rounded-md tab-btn-inactive transition">등록금 vs 장학금 대조</button>
+                    <button onclick="switchChartTab('student_emp')" id="chart-tab-student_emp" class="px-3 py-1.5 rounded-md tab-btn-inactive transition">재학생 규모 vs 취업률</button>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <section id="about" class="py-16 px-4 bg-slate-100/70 dark:bg-slate-900/50 relative border-t border-slate-200 dark:border-slate-800/60">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row items-center gap-12">
-                <!-- Profile Image / Graphic -->
-                <div class="w-full md:w-5/12 flex justify-center">
-                    <div class="relative w-64 h-64 sm:w-80 sm:h-80">
-                        <div class="absolute inset-0 bg-gradient-to-tr from-brand-600 to-cyan-500 rounded-2xl rotate-3 opacity-60 dark:opacity-70 blur-sm"></div>
-                        <div class="relative w-full h-full glass-card rounded-2xl p-6 flex flex-col justify-between border border-slate-300 dark:border-slate-700">
-                            <div class="flex justify-between items-center">
-                                <div class="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
-                                    <i data-lucide="user-check" class="w-6 h-6"></i>
-                                </div>
-                                <span class="text-xs font-mono px-2.5 py-1 rounded bg-slate-200 dark:bg-slate-800 text-indigo-700 dark:text-indigo-300 border border-slate-300 dark:border-slate-700">DATA ANALYST</span>
-                            </div>
-                            <div class="space-y-2">
-                                <p class="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider">Profile</p>
-                                <h3 class="text-2xl font-bold text-slate-900 dark:text-white">우현 (Woohyun)</h3>
-                                <p class="text-sm text-slate-600 dark:text-slate-300">"복잡한 숫자에 숨겨진 스토리를 찾아 시각적 가치로 변환합니다."</p>
-                            </div>
-                            <div class="flex gap-2 pt-2 border-t border-slate-200 dark:border-slate-800">
-                                <span class="text-xs px-2 py-1 rounded bg-indigo-100 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/50">#공공데이터</span>
-                                <span class="text-xs px-2 py-1 rounded bg-cyan-100 dark:bg-cyan-950/60 text-cyan-700 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-800/50">#데이터시각화</span>
-                                <span class="text-xs px-2 py-1 rounded bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/50">#문제해결</span>
-                            </div>
-                        </div>
+            <!-- Chart Canvas Container -->
+            <div class="relative w-full h-[400px] sm:h-[450px]">
+                <canvas id="deptMainChart"></canvas>
+            </div>
+
+            <!-- Chart Dynamic Insight Banner -->
+            <div id="chart-insight-box" class="mt-4 p-4 rounded-xl bg-sky-50 border border-sky-200 text-xs sm:text-sm text-sky-950 flex items-start gap-3">
+                <i data-lucide="info" class="w-5 h-5 text-sky-600 shrink-0 mt-0.5"></i>
+                <div id="chart-insight-text">
+                    <!-- Dynamic text populated via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Section: Department 1 - General Social Studies -->
+        <section class="space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-l-4 border-l-sky-600 pl-4">
+                <div>
+                    <h3 class="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="users" class="w-6 h-6 text-sky-600"></i> 1. 일반사회교육과 세부 지표 분석
+                    </h3>
+                    <p class="text-xs text-slate-500 mt-0.5">전국 주요 8개 대학 학부 및 1개 대학원 운영 실적 (2025년 공시 기준)</p>
+                </div>
+                <span class="text-xs font-semibold bg-sky-100 text-sky-800 px-3 py-1 rounded-full">
+                    평균 경쟁률 국립 11.2:1 / 사립 7.3:1
+                </span>
+            </div>
+
+            <!-- Insights Grid for General Social Studies -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="glass-card rounded-xl p-4 border border-slate-200 bg-white/80">
+                    <div class="flex items-center gap-2 mb-2 text-rose-600 font-bold text-xs">
+                        <i data-lucide="alert-triangle" class="w-4 h-4"></i> 행정적 변수 및 데이터 특이점
                     </div>
-                </div>
-
-                <!-- Bio & Philosophy -->
-                <div class="w-full md:w-7/12 space-y-6">
-                    <div class="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-semibold text-sm">
-                        <i data-lucide="sparkles" class="w-4 h-4"></i>
-                        <span>ABOUT ME</span>
-                    </div>
-                    <h2 class="text-3xl font-bold text-slate-900 dark:text-white">
-                        데이터 수집부터 웹 리포트 작성까지,<br />
-                        전 과정을 스스로 설계합니다.
-                    </h2>
-                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
-                        공공데이터 포털의 Open API와 CSV 데이터를 수집·가공하여 실질적인 인사이트를 도출하는 일에 큰 흥미를 느낍니다. 
-                        단순 통계 제시를 넘어 **사용자가 직관적으로 탐색할 수 있는 인터랙티브 웹 보고서** 형식으로 결과를 전달하는 방식을 지향합니다.
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        <strong>전북대학교(학부 및 대학원)</strong>의 경쟁률·정원이 '0'으로 집계된 것은 실제 모집 중단보다는 데이터 보고 시점 지연 및 학제 개편에 따른 일시적 행정 변수로 분석됨.
                     </p>
+                </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                        <div class="p-4 rounded-xl bg-white dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 flex items-start gap-3">
-                            <div class="p-2 bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 rounded-lg shrink-0 mt-1">
-                                <i data-lucide="database" class="w-5 h-5"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-slate-900 dark:text-white text-sm">데이터 가공 & 전처리</h4>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Pandas, NumPy를 활용하여 결측치 처리 및 이상치 정제</p>
-                            </div>
-                        </div>
-                        <div class="p-4 rounded-xl bg-white dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 flex items-start gap-3">
-                            <div class="p-2 bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 rounded-lg shrink-0 mt-1">
-                                <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-slate-900 dark:text-white text-sm">인터랙티브 시각화</h4>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Chart.js 및 웹 프론트엔드를 이용한 가시성 높인 대시보드</p>
-                            </div>
-                        </div>
+                <div class="glass-card rounded-xl p-4 border border-slate-200 bg-white/80">
+                    <div class="flex items-center gap-2 mb-2 text-sky-600 font-bold text-xs">
+                        <i data-lucide="layers" class="w-4 h-4"></i> 대규모 사립대의 규모의 경제
                     </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        <strong>대구대학교</strong>는 재학생 수 136명으로 최다 규모. 높은 등록금(608만원)에도 재학생 1인당 522만원의 적극적인 장학금을 지급하여 학생 유인 재원을 확보함.
+                    </p>
+                </div>
+
+                <div class="glass-card rounded-xl p-4 border border-slate-200 bg-white/80">
+                    <div class="flex items-center gap-2 mb-2 text-emerald-600 font-bold text-xs">
+                        <i data-lucide="award" class="w-4 h-4"></i> 전문화된 교육 성과
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        <strong>한국교원대(65.0%)</strong>가 학부 최고 취업률을 기록했으며, <strong>전북대 대학원(100%)</strong>은 전문 학위 과정이 재교육 및 경력 개발에서 강력한 경쟁력을 보유함을 증명함.
+                    </p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="reports" class="py-20 px-4 relative">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center max-w-2xl mx-auto mb-16">
-                <div class="inline-flex items-center gap-2 text-brand-500 font-semibold text-sm mb-2">
-                    <i data-lucide="file-text" class="w-4 h-4"></i>
-                    <span>FEATURED REPORTS</span>
+        <!-- Detailed Section: Department 2 - Geography Education -->
+        <section class="space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-l-4 border-l-indigo-600 pl-4">
+                <div>
+                    <h3 class="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="map-pin" class="w-6 h-6 text-indigo-600"></i> 2. 지리교육과 세부 지표 분석
+                    </h3>
+                    <p class="text-xs text-slate-500 mt-0.5">전국 주요 10개 대학 상위/중·하위 그룹별 지표 분석 (2025년 공시 기준)</p>
                 </div>
-                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">주요 데이터 분석 보고서</h2>
-                <p class="text-slate-400 text-sm sm:text-base">
-                    대학알리미 공시 정보 및 도로교통공단 데이터를 활용하여 작성한 웹 보고서입니다.<br />
-                    카드를 클릭하면 상세 분석 내용과 시각화 그래프를 확인하실 수 있습니다.
-                </p>
+                <span class="text-xs font-semibold bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">
+                    최고 경쟁률 충북대 15.6:1 / 최고 취업률 공주대 57.1%
+                </span>
             </div>
 
-            <!-- Reports Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-                <div onclick="location.href='./data1/index.html'" class="glass-card rounded-2xl border border-slate-700/80 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between overflow-hidden group shadow-xl cursor-pointer">
-                    <!-- Top Badge & Header -->
-                    <div class="p-6 sm:p-8 space-y-4">
-                        <div class="flex items-center justify-between flex-wrap gap-2">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950 text-cyan-300 text-xs font-semibold border border-cyan-700/50">
-                                <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i>
-                                대학알리미 데이터 활용
-                            </span>
-                            <span class="text-xs text-slate-400">최근 업데이트: 2026.02</span>
-                        </div>
-
-                        <h3 class="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors leading-snug">
-                            대학알리미 기반 전국 대학 전공별 취업률 및 진로 경로 분석 보고서
-                        </h3>
-
-                        <p class="text-slate-300 text-sm leading-relaxed">
-                            전국 4년제 대학의 학과별 취업률, 신입생 경쟁률, 등록금 수준 공시 데이터를 연계 분석하여 
-                            계열별 취업 성공 경로 패턴과 진로 유망 지수를 도출한 데이터 분석 보고서입니다.
-                        </p>
-
-                        <!-- Key Summary Metrics Grid -->
-                        <div class="grid grid-cols-3 gap-2 py-3 border-y border-slate-800 text-center my-4">
-                            <div class="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
-                                <div class="text-xs text-slate-400">분석 대상 학과</div>
-                                <div class="text-lg font-bold text-cyan-400 mt-0.5">3,200+</div>
-                            </div>
-                            <div class="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
-                                <div class="text-xs text-slate-400">평균 취업률 분석</div>
-                                <div class="text-lg font-bold text-white mt-0.5">67.4%</div>
-                            </div>
-                            <div class="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
-                                <div class="text-xs text-slate-400">핵심 가공 지표</div>
-                                <div class="text-lg font-bold text-emerald-400 mt-0.5">5개 영역</div>
-                            </div>
-                        </div>
-
-                        <!-- Highlights list -->
-                        <div class="space-y-2 text-xs text-slate-300">
-                            <div class="flex items-center gap-2">
-                                <i data-lucide="check-circle2" class="w-4 h-4 text-cyan-400 shrink-0"></i>
-                                <span>공공 데이터포털 대학알리미 학과별 취업률 및 진학 데이터 정제</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <i data-lucide="check-circle2" class="w-4 h-4 text-cyan-400 shrink-0"></i>
-                                <span>공학·의약·인문 계열 간 취업 수치 및 연관 요소 상과 분석</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <i data-lucide="check-circle2" class="w-4 h-4 text-cyan-400 shrink-0"></i>
-                                <span>인터랙티브 레이더 차트로 맞춤형 진로 의사결정 모델 제안</span>
-                            </div>
-                        </div>
+            <!-- Insights Grid for Geography Education -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="glass-card rounded-xl p-4 border border-slate-200 bg-white/80">
+                    <div class="flex items-center gap-2 mb-2 text-indigo-600 font-bold text-xs">
+                        <i data-lucide="sparkle" class="w-4 h-4"></i> 경쟁률 극간 및 거점 국립대 선호
                     </div>
-
-                    <!-- Card Footer -->
-                    <div class="px-6 py-4 bg-slate-900/80 border-t border-slate-800 flex items-center justify-between">
-                        <div class="flex gap-2">
-                            <span class="text-[11px] px-2 py-0.5 bg-slate-800 text-slate-300 rounded">Python</span>
-                            <span class="text-[11px] px-2 py-0.5 bg-slate-800 text-slate-300 rounded">Pandas</span>
-                            <span class="text-[11px] px-2 py-0.5 bg-slate-800 text-slate-300 rounded">Chart.js</span>
-                        </div>
-                        <a href="./data1/index.html" onclick="event.stopPropagation();" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-medium text-xs rounded-lg transition-all flex items-center gap-1.5 shadow-md shadow-cyan-600/20">
-                            <span>보고서 전체보기</span>
-                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                        </a>
-                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        <strong>충북대학교(15.6:1)</strong>가 전국 사범계열 중 최고 입시 경쟁률을 기록. 거점 국립대에 대한 학생들의 높은 비용 효율성 및 안정 선호 경향이 입증됨.
+                    </p>
                 </div>
 
-                <div onclick="location.href='./data2/index.html'" class="glass-card rounded-2xl border border-slate-700/80 hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between overflow-hidden group shadow-xl cursor-pointer">
-                    <!-- Top Badge & Header -->
-                    <div class="p-6 sm:p-8 space-y-4">
-                        <div class="flex items-center justify-between flex-wrap gap-2">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-950 text-amber-300 text-xs font-semibold border border-amber-700/50">
-                                <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
-                                도로교통공단 TAAS 데이터 활용
-                            </span>
-                            <span class="text-xs text-slate-400">최근 업데이트: 2026.01</span>
-                        </div>
-
-                        <h3 class="text-2xl font-bold text-white group-hover:text-amber-400 transition-colors leading-snug">
-                            도로교통공단 데이터 기반 교통사고 위험 패턴 및 안전 요인 분석 보고서
-                        </h3>
-
-                        <p class="text-slate-300 text-sm leading-relaxed">
-                            도로교통공단(TAAS)의 시간대별·요일별·사고유형별 공공데이터를 가공하여 
-                            보행자 위험 구역을 식별하고 차년도 교통안전시설 개선을 위한 맞춤형 대책을 제시한 보고서입니다.
-                        </p>
-
-                        <!-- Key Summary Metrics Grid -->
-                        <div class="grid grid-cols-3 gap-2 py-3 border-y border-slate-800 text-center my-4">
-                            <div class="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
-                                <div class="text-xs text-slate-400">분석 사고 건수</div>
-                                <div class="text-lg font-bold text-amber-400 mt-0.5">180,000+</div>
-                            </div>
-                            <div class="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
-                                <div class="text-xs text-slate-400">고위험 피크시간</div>
-                                <div class="text-lg font-bold text-white mt-0.5">18시 ~ 20시</div>
-                            </div>
-                            <div class="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
-                                <div class="text-xs text-slate-400">안전 개선안</div>
-                                <div class="text-lg font-bold text-emerald-400 mt-0.5">3대 전략</div>
-                            </div>
-                        </div>
-
-                        <!-- Highlights list -->
-                        <div class="space-y-2 text-xs text-slate-300">
-                            <div class="flex items-center gap-2">
-                                <i data-lucide="check-circle2" class="w-4 h-4 text-amber-400 shrink-0"></i>
-                                <span>TAAS 공공 빅데이터 추출 및 가해/피해 차종 유형화</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <i data-lucide="check-circle2" class="w-4 h-4 text-amber-400 shrink-0"></i>
-                                <span>출퇴근 시간대 보행자 횡단사고 집중 발생 위험도 도출</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <i data-lucide="check-circle2" class="w-4 h-4 text-amber-400 shrink-0"></i>
-                                <span>어린이·고령자 보호구역 스마트 횡단보도 설치 우선순위 제안</span>
-                            </div>
-                        </div>
+                <div class="glass-card rounded-xl p-4 border border-slate-200 bg-white/80">
+                    <div class="flex items-center gap-2 mb-2 text-amber-600 font-bold text-xs">
+                        <i data-lucide="help-circle" class="w-4 h-4"></i> 제주대 성과 관리 사각지대
                     </div>
-
-                    <!-- Card Footer -->
-                    <div class="px-6 py-4 bg-slate-900/80 border-t border-slate-800 flex items-center justify-between">
-                        <div class="flex gap-2">
-                            <span class="text-[11px] px-2 py-0.5 bg-slate-800 text-slate-300 rounded">TAAS Data</span>
-                            <span class="text-[11px] px-2 py-0.5 bg-slate-800 text-slate-300 rounded">Seaborn</span>
-                            <span class="text-[11px] px-2 py-0.5 bg-slate-800 text-slate-300 rounded">Geographic Analysis</span>
-                        </div>
-                        <a href="./data2/index.html" onclick="event.stopPropagation();" class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-medium text-xs rounded-lg transition-all flex items-center gap-1.5 shadow-md shadow-amber-600/20">
-                            <span>보고서 전체보기</span>
-                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                        </a>
-                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        <strong>제주대학교 지리교육과</strong>의 취업률 0% 집계는 지역적 임용 수요 한계 또는 공시 데이터 누락 가능성을 시사하므로 지자체 및 학과 차원의 정밀 진단 필요.
+                    </p>
                 </div>
 
-            </div>
-        </div>
-    </section>
-
-    <section id="stack" class="py-16 px-4 bg-slate-900/60 border-t border-b border-slate-800">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center max-w-xl mx-auto mb-12">
-                <div class="inline-flex items-center gap-2 text-emerald-400 font-semibold text-sm mb-2">
-                    <i data-lucide="code-2" class="w-4 h-4"></i>
-                    <span>SKILLS & TOOLS</span>
-                </div>
-                <h2 class="text-3xl font-bold text-white">데이터 분석 & 전달 역량</h2>
-            </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div class="glass-card p-5 rounded-xl border border-slate-800 text-center">
-                    <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400">
-                        <i data-lucide="terminal" class="w-6 h-6"></i>
+                <div class="glass-card rounded-xl p-4 border border-slate-200 bg-white/80">
+                    <div class="flex items-center gap-2 mb-2 text-emerald-600 font-bold text-xs">
+                        <i data-lucide="trending-up" class="w-4 h-4"></i> 대형 사립대의 자원 집중 성과
                     </div>
-                    <h4 class="font-bold text-white text-sm">Python & Pandas</h4>
-                    <p class="text-xs text-slate-400 mt-1">대용량 CSV/JSON 가공, 결측치 정제 및 통계 분석</p>
-                </div>
-
-                <div class="glass-card p-5 rounded-xl border border-slate-800 text-center">
-                    <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400">
-                        <i data-lucide="pie-chart" class="w-6 h-6"></i>
-                    </div>
-                    <h4 class="font-bold text-white text-sm">Chart.js & Visualization</h4>
-                    <p class="text-xs text-slate-400 mt-1">사용자 친화적 대시보드 및 그래프 구현</p>
-                </div>
-
-                <div class="glass-card p-5 rounded-xl border border-slate-800 text-center">
-                    <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-400">
-                        <i data-lucide="file-spread-sheet" class="w-6 h-6"></i>
-                    </div>
-                    <h4 class="font-bold text-white text-sm">공공데이터 API</h4>
-                    <p class="text-xs text-slate-400 mt-1">대학알리미, TAAS, 공공데이터포털 연동</p>
-                </div>
-
-                <div class="glass-card p-5 rounded-xl border border-slate-800 text-center">
-                    <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400">
-                        <i data-lucide="layout" class="w-6 h-6"></i>
-                    </div>
-                    <h4 class="font-bold text-white text-sm">웹 포트폴리오 제작</h4>
-                    <p class="text-xs text-slate-400 mt-1">HTML/Tailwind CSS 기반 실시간 웹 보고서 출판</p>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        <strong>고려대(152명, 54.2%)</strong>, <strong>가톨릭관동대(119명, 50.0%)</strong> 등 대규모 사립대학들이 50% 이상의 높은 취업률을 유지하여 자원 집중 효과를 시현함.
+                    </p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="timeline" class="py-20 px-4">
-        <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-16">
-                <div class="inline-flex items-center gap-2 text-indigo-400 font-semibold text-sm mb-2">
-                    <i data-lucide="history" class="w-4 h-4"></i>
-                    <span>ACTIVITY HISTORY</span>
+        <!-- Interactive Data Table Section -->
+        <section class="glass-card rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="table" class="w-5 h-5 text-sky-600"></i> 사범계열 학과 종합 데이터 탐색기
+                    </h3>
+                    <p class="text-xs text-slate-500">원하는 학과 선택, 검색 및 필터링을 통해 각 대학의 상세 공시 수치를 대조해보세요.</p>
                 </div>
-                <h2 class="text-3xl font-bold text-white">우현의 프로젝트 및 활동 히스토리</h2>
-            </div>
-
-            <div class="relative border-l-2 border-slate-800 ml-4 md:ml-32 space-y-10">
-
-                <!-- Timeline Item 1 -->
-                <div class="relative pl-8 md:pl-10">
-                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-cyan-500 border-4 border-slate-900"></div>
-                    <span class="hidden md:block absolute -left-32 top-1 text-xs font-mono text-slate-400 w-24 text-right">2026.01 - 2026.02</span>
-                    <div class="glass-card p-5 rounded-xl border border-slate-800">
-                        <span class="md:hidden text-xs text-cyan-400 font-mono block mb-1">2026.01 - 2026.02</span>
-                        <h4 class="font-bold text-white text-base">대학알리미 기반 전국 대학 진로 데이터 분석 프로젝트</h4>
-                        <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-                            전국 학과 공시 데이터를 전처리하여 계열별 취업 성공 경로 및 학과별 특성 스파이더 차트 모델을 제작.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Timeline Item 2 -->
-                <div class="relative pl-8 md:pl-10">
-                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-amber-500 border-4 border-slate-900"></div>
-                    <span class="hidden md:block absolute -left-32 top-1 text-xs font-mono text-slate-400 w-24 text-right">2025.11 - 2025.12</span>
-                    <div class="glass-card p-5 rounded-xl border border-slate-800">
-                        <span class="md:hidden text-xs text-amber-400 font-mono block mb-1">2025.11 - 2025.12</span>
-                        <h4 class="font-bold text-white text-base">도로교통공단 TAAS 교통사고 빅데이터 시각화</h4>
-                        <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-                            최근 3개년 보행자 사고 위험 구역 분석 및 시계열 사고 빈도 그래프 구축, 안전 대책 웹 보고서 발간.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Timeline Item 3 -->
-                <div class="relative pl-8 md:pl-10">
-                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-brand-500 border-4 border-slate-900"></div>
-                    <span class="hidden md:block absolute -left-32 top-1 text-xs font-mono text-slate-400 w-24 text-right">2025.08 - 2025.10</span>
-                    <div class="glass-card p-5 rounded-xl border border-slate-800">
-                        <span class="md:hidden text-xs text-brand-400 font-mono block mb-1">2025.08 - 2025.10</span>
-                        <h4 class="font-bold text-white text-base">공공데이터 포털 분석 워크숍 수료</h4>
-                        <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-                            Python 기반 데이터 가공 및 웹 대시보드 구축 과정 이수.
-                        </p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="py-20 px-4 bg-slate-950 border-t border-slate-800">
-        <div class="max-w-4xl mx-auto text-center space-y-8">
-            <div class="inline-flex items-center gap-2 text-indigo-400 font-semibold text-sm">
-                <i data-lucide="mail" class="w-4 h-4"></i>
-                <span>GET IN TOUCH</span>
-            </div>
-            <h2 class="text-3xl sm:text-4xl font-bold text-white">
-                데이터 분석 및 협업 문의는<br />언제든 환영합니다!
-            </h2>
-            <p class="text-slate-400 text-sm max-w-lg mx-auto">
-                분석 보고서에 대한 궁금한 점이나 새로운 데이터 관련 프로젝트 협업 문의가 있으시면 아래 메일로 편하게 연락주세요.
-            </p>
-
-            <div class="inline-flex items-center gap-3 p-2 bg-slate-900 rounded-xl border border-slate-800">
-                <span class="px-4 py-2 font-mono text-indigo-300 text-sm font-semibold select-all" id="email-text">woohyun.data@example.com</span>
-                <button onclick="copyEmail()" class="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-lg text-xs font-medium transition-all flex items-center gap-1.5">
-                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                    <span>복사</span>
-                </button>
-            </div>
-
-            <div class="pt-12 text-xs text-slate-500 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p>© 2026 우현 (Woohyun). All rights reserved.</p>
-                <p class="flex items-center gap-1">
-                    <span>데이터 출처:</span>
-                    <span class="text-slate-400">대학알리미</span> · <span class="text-slate-400">도로교통공단</span>
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- MODAL 1: CAREER REPORT -->
-    <div id="career-modal" class="fixed inset-0 z-50 hidden bg-slate-950/70 dark:bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-        <div class="relative w-full max-w-4xl bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col text-slate-800 dark:text-slate-100">
-            
-            <!-- Modal Header -->
-            <div class="px-6 py-4 bg-slate-100 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between shrink-0">
-                <div class="flex items-center gap-2">
-                    <span class="px-2.5 py-1 rounded-md bg-cyan-100 dark:bg-cyan-950 text-cyan-700 dark:text-cyan-300 text-xs font-semibold border border-cyan-300 dark:border-cyan-700/50">대학알리미 보고서</span>
-                    <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white truncate max-w-md sm:max-w-xl">전국 대학 전공별 취업률 및 진로 경로 분석</h3>
-                </div>
-                <button onclick="closeModal('career-modal')" class="p-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-
-            <!-- Modal Body (Scrollable) -->
-            <div class="p-6 sm:p-8 overflow-y-auto space-y-8 custom-scrollbar">
                 
-                <!-- Report Summary Banner -->
-                <div class="p-5 rounded-xl bg-cyan-50 dark:bg-gradient-to-r dark:from-cyan-950/60 dark:to-slate-800 border border-cyan-200 dark:border-cyan-800/40 space-y-2">
-                    <h4 class="text-sm font-bold text-cyan-700 dark:text-cyan-300 uppercase tracking-wider">Executive Summary</h4>
-                    <p class="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
-                        본 보고서는 교육부 및 대학알리미 공시 데이터를 수집하여 4년제 대학 210개교의 전공 계열별 취업률, 진학률 및 학과 유지율을 종합 다각화 분석하였습니다.
-                        분석 결과 공학 계열과 의약 계열이 70% 이상의 높은 취업 유지율을 기록하였으며, 융합 학과의 성장세가 두드러졌습니다.
-                    </p>
-                </div>
+                <!-- Controls -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <!-- Dept Filter Tabs -->
+                    <div class="flex bg-slate-100 p-1 rounded-lg text-xs font-medium">
+                        <button onclick="switchTableDept('all')" id="tbl-dept-all" class="px-3 py-1.5 rounded-md tab-btn-active">전체 학과</button>
+                        <button onclick="switchTableDept('soc')" id="tbl-dept-soc" class="px-3 py-1.5 rounded-md tab-btn-inactive">일반사회교육과</button>
+                        <button onclick="switchTableDept('geo')" id="tbl-dept-geo" class="px-3 py-1.5 rounded-md tab-btn-inactive">지리교육과</button>
+                    </div>
 
-                <!-- Interactive Visualization Section -->
-                <div class="space-y-4">
+                    <!-- Type Filter -->
+                    <select id="typeFilter" onchange="filterAndRenderTable()" class="text-xs bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-sky-500">
+                        <option value="ALL">전체 설립유형</option>
+                        <option value="국립">국립 / 국립대법인</option>
+                        <option value="사립">사립</option>
+                    </select>
+
+                    <!-- Search Input -->
+                    <div class="relative min-w-[160px]">
+                        <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                        <input type="text" id="searchInput" onkeyup="filterAndRenderTable()" placeholder="대학명 검색..." class="w-full text-xs pl-8 pr-3 py-1.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Container -->
+            <div class="overflow-x-auto custom-scrollbar rounded-xl border border-slate-200">
+                <table class="w-full text-left border-collapse text-xs sm:text-sm" id="deptTable">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                            <th class="p-3.5 cursor-pointer hover:bg-slate-200" onclick="triggerSort('dept')">학과 <i data-lucide="arrow-up-down" class="w-3 h-3 inline"></i></th>
+                            <th class="p-3.5 cursor-pointer hover:bg-slate-200" onclick="triggerSort('univ')">대학명 <i data-lucide="arrow-up-down" class="w-3 h-3 inline"></i></th>
+                            <th class="p-3.5 cursor-pointer hover:bg-slate-200" onclick="triggerSort('type')">설립유형 <i data-lucide="arrow-up-down" class="w-3 h-3 inline"></i></th>
+                            <th class="p-3.5 text-right cursor-pointer hover:bg-slate-200" onclick="triggerSort('comp')">경쟁률 (:1) <i data-lucide="arrow-up-down" class="w-3 h-3 inline"></i></th>
+                            <th class="p-3.5 text-right cursor-pointer hover:bg-slate-200" onclick="triggerSort('students')">재학생 (명) <i data-lucide="arrow-up-down" class="w-3 h-3 inline"></i></th>
+                            <th class="p-3.5 text-right cursor-pointer hover:bg-slate-200" onclick="triggerSort('quota')">정원 (명) <i data-lucide="arrow-up-down" class="w-3 h-3 inline"></i></th>
+                            <th class="p-3.5 text-right cursor-pointer hover:bg-slate-200" onclick="triggerSort('emp')">취업률 (%) <i data-lucide="arrow-up-down" class="w-3 h-3 inline"></i></th>
+                            <th class="p-3.5 text-right cursor-pointer hover:bg-slate-200" onclick="triggerSort('tuition')">평균등록금 (원) <i data-lucide="arrow-up-down" class="w-3 h-3 inline"></i></th>
+                            <th class="p-3.5 text-right cursor-pointer hover:bg-slate-200" onclick="triggerSort('scholarship')">평균장학금 (원) <i data-lucide="arrow-up-down" class="w-3 h-3 inline"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody" class="divide-y divide-slate-200 bg-white">
+                        <!-- Dynamic Body Rows populated via JS -->
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-2">* 2025년 및 2026년 공시 수치 베이스라인 기준. 각 테이블 헤더를 클릭하면 정렬할 수 있습니다.</p>
+        </section>
+
+        <!-- National vs Private Comparative Matrix Section -->
+        <section class="glass-card rounded-2xl p-6 sm:p-8 border border-slate-200 space-y-6">
+            <div class="flex items-center gap-3 border-b border-slate-200 pb-4">
+                <div class="p-2.5 bg-indigo-600 rounded-xl text-white">
+                    <i data-lucide="scale" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-slate-900">3. 설립 유형별(국립 vs 사립) 대조 분석</h3>
+                    <p class="text-xs text-slate-500">등록금, 장학금, 신입생 선호도 및 취업 성과의 구조적 비교</p>
+                </div>
+            </div>
+
+            <!-- Matrix Comparison Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- National Universities -->
+                <div class="p-5 rounded-2xl bg-sky-50/60 border border-sky-200 space-y-4">
                     <div class="flex items-center justify-between">
-                        <h4 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                            <i data-lucide="bar-chart-2" class="w-5 h-5 text-cyan-600 dark:text-cyan-400"></i>
-                            계열별 평균 취업률 비교 분석
-                        </h4>
-                        <span class="text-xs text-slate-500 dark:text-slate-400">(단위: %)</span>
+                        <span class="text-xs font-bold uppercase tracking-wider bg-sky-600 text-white px-2.5 py-1 rounded-md">국립대학교 그룹</span>
+                        <span class="text-xs font-semibold text-sky-800">저비용 · 고경쟁 구조</span>
                     </div>
-                    
-                    <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 h-64 sm:h-80">
-                        <canvas id="careerChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Deep Dive Analysis Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="p-4 rounded-xl bg-slate-100/70 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 space-y-2">
-                        <h5 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                            <i data-lucide="check-circle" class="w-4 h-4 text-cyan-600 dark:text-cyan-400"></i>
-                            핵심 발견 1: 실무 연계형 전공의 강세
-                        </h5>
-                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                            소프트웨어, AI, 바이오 등 실무 프로젝트 중심 학과의 취업률이 일반 이론 중심 학과 대비 평균 14.2%p 높게 나타났습니다.
-                        </p>
-                    </div>
-
-                    <div class="p-4 rounded-xl bg-slate-100/70 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 space-y-2">
-                        <h5 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                            <i data-lucide="check-circle" class="w-4 h-4 text-cyan-600 dark:text-cyan-400"></i>
-                            핵심 발견 2: 수도권 대 대학원 진학률
-                        </h5>
-                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                            자연계열의 경우 졸업 후 즉시 취업보다 대학원 진학을 통한 전문성 확보 비율이 28.5%로 타 계열 대비 현저히 높았습니다.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Strategy Recommendation -->
-                <div class="space-y-3 pt-2">
-                    <h4 class="text-base font-bold text-slate-900 dark:text-white">진로 설계 가이드라인 제안</h4>
-                    <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-300 list-disc list-inside bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
-                        <li><strong>학부 과정 중 데이터 역량 확보:</strong> 계열에 관계없이 데이터 분석 및 IT 활용 능력을 보유한 졸업생의 취업 연계율 상승.</li>
-                        <li><strong>산학협력 이수 권장:</strong> 캡스톤 디자인 및 기업 연계 프로젝트 참여 경험이 핵심 취업 성공 요인으로 작용.</li>
+                    <ul class="space-y-3 text-xs sm:text-sm text-slate-700">
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-sky-600 shrink-0 mt-0.5"></i>
+                            <span><strong>평균 등록금:</strong> 3,000,000원 ~ 4,348,000원 (부담 최소화)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-sky-600 shrink-0 mt-0.5"></i>
+                            <span><strong>평균 장학금:</strong> 2,700,000원 ~ 3,926,000원</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-sky-600 shrink-0 mt-0.5"></i>
+                            <span><strong>신입생 경쟁률:</strong> 상대적 고경쟁 (최고 15.6:1 - 충북대 지리)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-sky-600 shrink-0 mt-0.5"></i>
+                            <span><strong>취업 성과:</strong> 한국교원대 65.0%, 공주대 57.1% 등 실무 중심 우수</span>
+                        </li>
                     </ul>
                 </div>
 
-            </div>
-
-            <!-- Modal Footer -->
-            <div class="px-6 py-4 bg-slate-100 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-700 flex justify-end shrink-0">
-                <button onclick="closeModal('career-modal')" class="px-5 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-white rounded-lg text-xs font-semibold transition-colors">
-                    닫기
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL 2: TRAFFIC REPORT -->
-    <div id="traffic-modal" class="fixed inset-0 z-50 hidden bg-slate-950/70 dark:bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-        <div class="relative w-full max-w-4xl bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col text-slate-800 dark:text-slate-100">
-            
-            <!-- Modal Header -->
-            <div class="px-6 py-4 bg-slate-100 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between shrink-0">
-                <div class="flex items-center gap-2">
-                    <span class="px-2.5 py-1 rounded-md bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 text-xs font-semibold border border-amber-300 dark:border-amber-700/50">도로교통공단 TAAS</span>
-                    <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white truncate max-w-md sm:max-w-xl">교통사고 위험 패턴 및 안전 요인 분석 보고서</h3>
+                <!-- Private Universities -->
+                <div class="p-5 rounded-2xl bg-indigo-50/60 border border-indigo-200 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold uppercase tracking-wider bg-indigo-600 text-white px-2.5 py-1 rounded-md">사립대학교 그룹</span>
+                        <span class="text-xs font-semibold text-indigo-800">고비용 · 장학금 보완 · 성과 차별화</span>
+                    </div>
+                    <ul class="space-y-3 text-xs sm:text-sm text-slate-700">
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-600 shrink-0 mt-0.5"></i>
+                            <span><strong>평균 등록금:</strong> 6,086,000원 ~ 7,527,000원 (국립 대비 약 2배)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-600 shrink-0 mt-0.5"></i>
+                            <span><strong>평균 장학금:</strong> 3,180,000원 ~ 5,223,000원 (장학금 절대액 보완)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-600 shrink-0 mt-0.5"></i>
+                            <span><strong>신입생 경쟁률:</strong> 상대적 저경쟁 (고려대 10.9:1 제외 시 4.6~8.4:1)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-600 shrink-0 mt-0.5"></i>
+                            <span><strong>취업 성과:</strong> 고려대 54.2%, 가톨릭관동대 50.0% 브랜드 파워 유지</span>
+                        </li>
+                    </ul>
                 </div>
-                <button onclick="closeModal('traffic-modal')" class="p-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
             </div>
 
-            <!-- Modal Body (Scrollable) -->
-            <div class="p-6 sm:p-8 overflow-y-auto space-y-8 custom-scrollbar">
-                
-                <!-- Report Summary Banner -->
-                <div class="p-5 rounded-xl bg-amber-50 dark:bg-gradient-to-r dark:from-amber-950/60 dark:to-slate-800 border border-amber-200 dark:border-amber-800/40 space-y-2">
-                    <h4 class="text-sm font-bold text-amber-700 dark:text-amber-300 uppercase tracking-wider">Executive Summary</h4>
-                    <p class="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
-                        도로교통공단 TAAS 빅데이터를 수집 및 가공하여 시간대별 보행자 사고 발생률과 위급도를 시계열로 도출하였습니다.
-                        퇴근 시간대(18~20시) 및 시야 확보가 어려운 야간 시간대에 고령자 및 보행자 사고 발생 건수가 급증하는 패턴을 확인했습니다.
+            <!-- Analytical Summary Box -->
+            <div class="p-4 rounded-xl bg-slate-900 text-white text-xs sm:text-sm space-y-2">
+                <div class="flex items-center gap-2 font-bold text-sky-400">
+                    <i data-lucide="compass" class="w-4 h-4"></i> Prestige vs. Cost 트레이드오프 종합 분석
+                </div>
+                <p class="text-slate-300 leading-relaxed">
+                    국립대학은 저렴한 학비와 높은 임용 안정성 브랜드로 입시 시장을 주도하고 있습니다. 반면 사립대학은 높은 교육 비용에도 불구하고 우수한 장학금 환원과 브랜드 파워(Prestige)를 통해 학생을 유치하고 있으며, 입학생들의 선택 기준이 <strong>'저비용 고효율(국립)'</strong>과 <strong>'고비용 고성과(사립)'</strong>으로 명확히 양분되고 있음을 나타냅니다.
+                </p>
+            </div>
+        </section>
+
+        <!-- Conclusion and Recommendations Section -->
+        <section class="glass-card rounded-2xl p-6 sm:p-8 bg-slate-900 text-white shadow-xl space-y-6">
+            <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+                <div class="p-2.5 bg-sky-600 rounded-xl">
+                    <i data-lucide="lightbulb" class="w-6 h-6 text-white"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold">4. 결론 및 정책 제언</h3>
+                    <p class="text-xs text-slate-400">사범계열 학과의 지속 가능성 및 교육 개혁을 위한 4대 핵심 과제</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Recommendation 1 -->
+                <div class="p-5 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-2">
+                    <div class="flex items-center gap-2 text-sky-400 font-bold text-sm">
+                        <span class="w-6 h-6 rounded-full bg-sky-500/20 flex items-center justify-center text-xs">1</span>
+                        국립대 중심의 안정적 교원 공급망 고도화
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        거점 국립대는 저렴한 학비와 높은 신입생 경쟁률을 유지하고 있는 만큼, 우수한 학생들을 정예 교원으로 양성하기 위한 실무 중심 임용 연계 스터디 및 교육 인프라 지원을 지속 강화해야 합니다.
                     </p>
                 </div>
 
-                <!-- Interactive Visualization Section -->
-                <div class="space-y-4">
-                    <div class="flex items-center justify-between">
-                        <h4 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                            <i data-lucide="line-chart" class="w-5 h-5 text-amber-600 dark:text-amber-400"></i>
-                            시간대별 교통사고 발생 건수 추이
-                        </h4>
-                        <span class="text-xs text-slate-500 dark:text-slate-400">(단위: 건수)</span>
+                <!-- Recommendation 2 -->
+                <div class="p-5 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-2">
+                    <div class="flex items-center gap-2 text-rose-400 font-bold text-sm">
+                        <span class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center text-xs">2</span>
+                        데이터 공백 및 이상치에 대한 정밀 모니터링
                     </div>
-                    
-                    <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 h-64 sm:h-80">
-                        <canvas id="trafficChart"></canvas>
-                    </div>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        전북대(경쟁률 0) 및 제주대(취업률 0%)와 같이 통계상 이상치가 발생한 대학에 대해서는 단순히 수치 누락인지, 행정 보고 오류인지, 실질적 운영 위기인지에 대한 교육부 차원의 모니터링이 시급합니다.
+                    </p>
                 </div>
 
-                <!-- Deep Dive Analysis Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="p-4 rounded-xl bg-slate-100/70 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 space-y-2">
-                        <h5 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                            <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i>
-                            피크 타임 집중 현상
-                        </h5>
-                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                            일일 전체 보행자 사고 중 31.4%가 17:00 ~ 20:00 사이 집중 발생. 유동인구 증가와 조도 감소가 주원인으로 분석되었습니다.
-                        </p>
+                <!-- Recommendation 3 -->
+                <div class="p-5 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-2">
+                    <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
+                        <span class="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center text-xs">3</span>
+                        사립대의 성과 기반 차별화 전략 구축
                     </div>
-
-                    <div class="p-4 rounded-xl bg-slate-100/70 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 space-y-2">
-                        <h5 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                            <i data-lucide="shield" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i>
-                            보호구역 안전시설 효과
-                        </h5>
-                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                            스마트 바닥신호등 및 조명식 표지판이 설치된 구역은 차대 사람 사고 건수가 이전 대비 약 23.8% 감소함을 확인했습니다.
-                        </p>
-                    </div>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        사립대학은 국립대 수준의 가격 경쟁 확보가 어려운 만큼, 고려대나 가톨릭관동대처럼 50% 이상의 취업 성과를 입증하거나 장학금 확충을 통해 등록금 부담 정당성을 입증해야 합니다.
+                    </p>
                 </div>
 
-                <!-- Policy Recommendation -->
-                <div class="space-y-3 pt-2">
-                    <h4 class="text-base font-bold text-slate-900 dark:text-white">교통안전 개선 정책 제안</h4>
-                    <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-300 list-disc list-inside bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
-                        <li><strong>퇴근시간대 가변형 조명 조도 조절:</strong> 18시 이후 주요 보행자 횡단보도 조도 자동 상향 체계 도입.</li>
-                        <li><strong>고령자 자주 다니는 경로 우선 정비:</strong> 전통시장 및 복지관 주변 이면도로 속도제한 및 바닥 신호등 확충.</li>
-                    </ul>
+                <!-- Recommendation 4 -->
+                <div class="p-5 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-2">
+                    <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+                        <span class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-xs">4</span>
+                        임용 외 진로 다변화 및 트랙 개편
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        교원 임용 T/O 감소에 대응하여 공공기관, 교육 콘텐츠 개발, ESG/지리정보(GIS) 전문가 등 사회과 교육 전공자의 진로 다변화를 위한 융합 커리큘럼 도입이 절실합니다.
+                    </p>
                 </div>
-
             </div>
+        </section>
 
-            <!-- Modal Footer -->
-            <div class="px-6 py-4 bg-slate-100 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-700 flex justify-end shrink-0">
-                <button onclick="closeModal('traffic-modal')" class="px-5 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-white rounded-lg text-xs font-semibold transition-colors">
-                    닫기
-                </button>
-            </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 text-slate-500 text-xs py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p>본 보고서는 2024~2025년 교육통계 공시 데이터를 바탕으로 작성된 심층 분석 리포트입니다.</p>
+            <p>© 2026 사범계열(일반사회/지리) 학과 지표 및 현황 심층 분석 보고서. All rights reserved.</p>
         </div>
-    </div>
+    </footer>
 
-    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-emerald-600 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-2 text-sm font-medium pointer-events-none">
-        <i data-lucide="check-circle" class="w-5 h-5"></i>
-        <span id="toast-message">이메일 주소가 클립보드에 복사되었습니다!</span>
-    </div>
-
+    <!-- JavaScript Application Logic -->
     <script>
-        // Initialize Lucide Icons
-        lucide.createIcons();
+        // Raw Master Dataset from the report
+        const masterDataset = [
+            // 일반사회교육과
+            { dept: '일반사회교육과', univ: '경북대학교', type: '국립', comp: 15.2, students: 76, quota: 17, emp: 23.1, tuition: 3562000, scholarship: 2705433 },
+            { dept: '일반사회교육과', univ: '경상국립대학교', type: '국립', comp: 12.1, students: 66, quota: 15, emp: 50.0, tuition: 3266000, scholarship: 3709329 },
+            { dept: '일반사회교육과', univ: '부산대학교', type: '국립', comp: 11.2, students: 70, quota: 19, emp: 31.6, tuition: 3360000, scholarship: 3103847 },
+            { dept: '일반사회교육과', univ: '강원대학교', type: '국립', comp: 11.1, students: 73, quota: 16, emp: 53.3, tuition: 3424000, scholarship: 3332732 },
+            { dept: '일반사회교육과', univ: '대구대학교', type: '사립', comp: 7.3, students: 136, quota: 30, emp: 33.3, tuition: 6086000, scholarship: 5223724 },
+            { dept: '일반사회교육과', univ: '국립공주대학교', type: '국립', comp: 6.7, students: 69, quota: 18, emp: 42.9, tuition: 3198000, scholarship: 2797790 },
+            { dept: '일반사회교육과', univ: '한국교원대학교', type: '국립', comp: 5.2, students: 82, quota: 19, emp: 65.0, tuition: 3030000, scholarship: 3515199 },
+            { dept: '일반사회교육과', univ: '전북대학교', type: '국립', comp: 0, students: 41, quota: 0, emp: 38.9, tuition: 3322000, scholarship: 3461854 },
+            { dept: '일반사회교육과', univ: '전북대 대학원', type: '국립', comp: 0, students: 3, quota: 0, emp: 100.0, tuition: 2468000, scholarship: 337333 },
 
-        // Theme Switcher Logic
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') {
-                document.documentElement.classList.remove('dark');
-            } else {
-                document.documentElement.classList.add('dark');
-            }
-        }
+            // 지리교육과
+            { dept: '지리교육과', univ: '충북대학교', type: '국립', comp: 15.6, students: 60, quota: 15, emp: 42.9, tuition: 3593500, scholarship: 3926796 },
+            { dept: '지리교육과', univ: '경북대학교', type: '국립', comp: 11.6, students: 75, quota: 17, emp: 25.0, tuition: 3562000, scholarship: 2743310 },
+            { dept: '지리교육과', univ: '고려대학교', type: '사립', comp: 10.9, students: 152, quota: 35, emp: 54.2, tuition: 7527750, scholarship: 3614882 },
+            { dept: '지리교육과', univ: '국립공주대학교', type: '국립', comp: 10.6, students: 75, quota: 18, emp: 57.1, tuition: 3198000, scholarship: 3216765 },
+            { dept: '지리교육과', univ: '부산대학교', type: '국립', comp: 9.3, students: 81, quota: 19, emp: 38.9, tuition: 4348000, scholarship: 3831076 },
+            { dept: '지리교육과', univ: '동국대학교', type: '사립', comp: 8.4, students: 108, quota: 25, emp: 37.0, tuition: 7333000, scholarship: 3181813 },
+            { dept: '지리교육과', univ: '서울대학교', type: '국립', comp: 5.2, students: 91, quota: 20, emp: 53.3, tuition: 5239500, scholarship: 4315364 },
+            { dept: '지리교육과', univ: '가톨릭관동대', type: '사립', comp: 4.6, students: 119, quota: 28, emp: 50.0, tuition: 6494250, scholarship: 4059819 },
+            { dept: '지리교육과', univ: '제주대학교', type: '국립', comp: 6.7, students: 41, quota: 10, emp: 0.0, tuition: 3264500, scholarship: 3528690 },
+            { dept: '지리교육과', univ: '전북대학교', type: '국립', comp: 0, students: 37, quota: 0, emp: 33.3, tuition: 3322000, scholarship: 3129364 }
+        ];
 
-        function toggleTheme() {
-            const html = document.documentElement;
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-            } else {
-                html.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-            }
+        let currentTableDept = 'all'; // 'all', 'soc', 'geo'
+        let currentChartMode = 'soc_comp'; // 'soc_comp', 'geo_comp', 'tuition', 'student_emp'
+        let chartInstance = null;
+        let sortCol = 'comp';
+        let sortAsc = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-
-            // Re-render open modal charts for optimal contrast
-            if (careerChartInstance) {
-                careerChartInstance.destroy();
-                careerChartInstance = null;
-                renderCareerChart();
-            }
-            if (trafficChartInstance) {
-                trafficChartInstance.destroy();
-                trafficChartInstance = null;
-                renderTrafficChart();
-            }
-        }
-
-        // Initialize Theme on Load
-        initTheme();
-
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+            filterAndRenderTable();
+            initChart('soc_comp');
         });
 
-        // Close mobile menu on link click
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
+        // Table Filtering and Rendering Logic
+        function filterAndRenderTable() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const typeVal = document.getElementById('typeFilter').value;
+
+            let filtered = masterDataset.filter(item => {
+                const matchDept = (currentTableDept === 'all') ||
+                    (currentTableDept === 'soc' && item.dept === '일반사회교육과') ||
+                    (currentTableDept === 'geo' && item.dept === '지리교육과');
+                
+                const matchSearch = item.univ.toLowerCase().includes(search) || item.dept.toLowerCase().includes(search);
+                const matchType = (typeVal === 'ALL') || (typeVal === '국립' && item.type.includes('국립')) || (typeVal === '사립' && item.type === '사립');
+
+                return matchDept && matchSearch && matchType;
             });
-        });
 
-        // Toast Notification Helper
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toast-message');
-            toastMsg.innerText = msg;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
+            // Sorting logic
+            filtered.sort((a, b) => {
+                let valA = a[sortCol];
+                let valB = b[sortCol];
+
+                if (typeof valA === 'string') {
+                    return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                } else {
+                    return sortAsc ? valA - valB : valB - valA;
+                }
+            });
+
+            renderTableBody(filtered);
         }
 
-        // Copy Email Function
-        function copyEmail() {
-            const email = "woohyun.data@example.com";
-            
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(email).then(() => {
-                    showToast("이메일 주소가 클립보드에 복사되었습니다!");
-                }).catch(() => {
-                    fallbackCopy(email);
-                });
+        function renderTableBody(data) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            data.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition border-b border-slate-100";
+
+                const typeBadge = item.type.includes('국립')
+                    ? `<span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-sky-100 text-sky-800 border border-sky-200">국립</span>`
+                    : `<span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-indigo-100 text-indigo-800 border border-indigo-200">사립</span>`;
+
+                const deptBadge = item.dept === '일반사회교육과'
+                    ? `<span class="text-sky-700 font-medium">${item.dept}</span>`
+                    : `<span class="text-indigo-700 font-medium">${item.dept}</span>`;
+
+                tr.innerHTML = `
+                    <td class="p-3.5">${deptBadge}</td>
+                    <td class="p-3.5 font-bold text-slate-900">${item.univ}</td>
+                    <td class="p-3.5">${typeBadge}</td>
+                    <td class="p-3.5 text-right font-bold ${item.comp >= 10 ? 'text-sky-600' : 'text-slate-700'}">${item.comp > 0 ? item.comp + ':1' : '-'}</td>
+                    <td class="p-3.5 text-right text-slate-700">${item.students}명</td>
+                    <td class="p-3.5 text-right text-slate-600">${item.quota > 0 ? item.quota + '명' : '-'}</td>
+                    <td class="p-3.5 text-right font-bold ${item.emp >= 50 ? 'text-emerald-600' : 'text-slate-800'}">${item.emp.toFixed(1)}%</td>
+                    <td class="p-3.5 text-right font-mono text-slate-700">${item.tuition.toLocaleString()}원</td>
+                    <td class="p-3.5 text-right font-mono text-slate-700">${item.scholarship.toLocaleString()}원</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function triggerSort(colKey) {
+            if (sortCol === colKey) {
+                sortAsc = !sortAsc;
             } else {
-                fallbackCopy(email);
+                sortCol = colKey;
+                sortAsc = false;
             }
+            filterAndRenderTable();
         }
 
-        function fallbackCopy(text) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                showToast("이메일 주소가 클립보드에 복사되었습니다!");
-            } catch (err) {
-                showToast("복사에 실패했습니다.");
-            }
-            document.body.removeChild(textArea);
+        function switchTableDept(dept) {
+            currentTableDept = dept;
+            ['all', 'soc', 'geo'].forEach(d => {
+                const btn = document.getElementById(`tbl-dept-${d}`);
+                if (d === dept) {
+                    btn.className = "px-3 py-1.5 rounded-md tab-btn-active";
+                } else {
+                    btn.className = "px-3 py-1.5 rounded-md tab-btn-inactive";
+                }
+            });
+            filterAndRenderTable();
         }
 
-        // Modal Management & Chart Initialization Variables
-        let careerChartInstance = null;
-        let trafficChartInstance = null;
+        // Chart Initialization and Switcher Logic
+        function initChart(mode) {
+            currentChartMode = mode;
+            const ctx = document.getElementById('deptMainChart').getContext('2d');
 
-        function openModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-
-            if (modalId === 'career-modal' && !careerChartInstance) {
-                setTimeout(renderCareerChart, 100);
-            } else if (modalId === 'traffic-modal' && !trafficChartInstance) {
-                setTimeout(renderTrafficChart, 100);
+            if (chartInstance) {
+                chartInstance.destroy();
             }
-        }
 
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
+            let chartConfig = {};
 
-        window.addEventListener('click', (e) => {
-            if (e.target.classList.contains('backdrop-blur-md')) {
-                closeModal('career-modal');
-                closeModal('traffic-modal');
-            }
-        });
+            if (mode === 'soc_comp') {
+                const socData = masterDataset.filter(d => d.dept === '일반사회교육과' && d.quota > 0);
+                socData.sort((a, b) => b.comp - a.comp);
 
-        // Chart 1: University Major Employment Rate (대학알리미)
-        function renderCareerChart() {
-            const ctx = document.getElementById('careerChart').getContext('2d');
-            const isDark = document.documentElement.classList.contains('dark');
-            const ticksColor = isDark ? '#94a3b8' : '#475569';
-            const gridColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
-
-            careerChartInstance = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['공학계열', '의약계열', '사회계열', '자연계열', '예체능계열', '인문계열'],
-                    datasets: [{
-                        label: '평균 취업률 (%)',
-                        data: [73.2, 82.5, 63.8, 61.4, 58.2, 56.9],
-                        backgroundColor: [
-                            'rgba(6, 182, 212, 0.85)',
-                            'rgba(16, 185, 129, 0.85)',
-                            'rgba(99, 102, 241, 0.85)',
-                            'rgba(168, 85, 247, 0.85)',
-                            'rgba(244, 63, 94, 0.85)',
-                            'rgba(245, 158, 11, 0.85)'
-                        ],
-                        borderColor: [
-                            '#06b6d4',
-                            '#10b981',
-                            '#6366f1',
-                            '#a855f7',
-                            '#f43f5e',
-                            '#f59e0b'
-                        ],
-                        borderWidth: 1.5,
-                        borderRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return `취업률: ${context.raw}%`;
-                                }
+                chartConfig = {
+                    type: 'bar',
+                    data: {
+                        labels: socData.map(d => d.univ),
+                        datasets: [
+                            {
+                                label: '신입생 경쟁률 (:1)',
+                                data: socData.map(d => d.comp),
+                                backgroundColor: 'rgba(2, 132, 199, 0.85)',
+                                borderColor: '#0369a1',
+                                borderWidth: 1,
+                                yAxisID: 'y1'
+                            },
+                            {
+                                label: '취업률 (%)',
+                                data: socData.map(d => d.emp),
+                                backgroundColor: 'rgba(16, 185, 129, 0.85)',
+                                borderColor: '#059669',
+                                borderWidth: 1,
+                                yAxisID: 'y2'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y1: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                title: { display: true, text: '경쟁률 (:1)' },
+                                beginAtZero: true
+                            },
+                            y2: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                title: { display: true, text: '취업률 (%)' },
+                                grid: { drawOnChartArea: false },
+                                beginAtZero: true
                             }
                         }
+                    }
+                };
+                document.getElementById('chart-insight-text').innerHTML = `
+                    <strong>일반사회교육과 인사이트:</strong> 경북대(15.2:1), 경상국립대(12.1:1), 부산대(11.2:1), 강원대(11.1:1) 등 국립대의 입시 경쟁률이 압도적이며, 취업률 부문에서는 한국교원대(65.0%)와 강원대(53.3%)가 상위 성과를 기록했습니다.
+                `;
+
+            } else if (mode === 'geo_comp') {
+                const geoData = masterDataset.filter(d => d.dept === '지리교육과' && d.quota > 0);
+                geoData.sort((a, b) => b.comp - a.comp);
+
+                chartConfig = {
+                    type: 'bar',
+                    data: {
+                        labels: geoData.map(d => d.univ),
+                        datasets: [
+                            {
+                                label: '신입생 경쟁률 (:1)',
+                                data: geoData.map(d => d.comp),
+                                backgroundColor: 'rgba(99, 102, 241, 0.85)',
+                                borderColor: '#4f46e5',
+                                borderWidth: 1,
+                                yAxisID: 'y1'
+                            },
+                            {
+                                label: '취업률 (%)',
+                                data: geoData.map(d => d.emp),
+                                backgroundColor: 'rgba(16, 185, 129, 0.85)',
+                                borderColor: '#059669',
+                                borderWidth: 1,
+                                yAxisID: 'y2'
+                            }
+                        ]
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            grid: { color: gridColor },
-                            ticks: { color: ticksColor }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: { color: ticksColor }
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y1: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                title: { display: true, text: '경쟁률 (:1)' },
+                                beginAtZero: true
+                            },
+                            y2: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                title: { display: true, text: '취업률 (%)' },
+                                grid: { drawOnChartArea: false },
+                                beginAtZero: true
+                            }
                         }
                     }
-                }
-            });
+                };
+                document.getElementById('chart-insight-text').innerHTML = `
+                    <strong>지리교육과 인사이트:</strong> 충북대(15.6:1)가 전국 최고 경쟁률을 보인 가운데, 공주대(57.1%), 고려대(54.2%), 서울대(53.3%), 가톨릭관동대(50.0%) 등 50% 이상의 탄탄한 취업률을 기록한 대학들이 다수 분포합니다.
+                `;
+
+            } else if (mode === 'tuition') {
+                // Tuition vs Scholarship comparison for representative universities
+                const filteredData = masterDataset.filter(d => d.tuition > 0 && d.quota > 0);
+                filteredData.sort((a, b) => b.tuition - a.tuition);
+
+                chartConfig = {
+                    type: 'bar',
+                    data: {
+                        labels: filteredData.map(d => `${d.univ} (${d.dept.substring(0,2)})`),
+                        datasets: [
+                            {
+                                label: '평균 등록금 (원)',
+                                data: filteredData.map(d => d.tuition),
+                                backgroundColor: 'rgba(239, 68, 68, 0.75)',
+                                borderColor: '#dc2626',
+                                borderWidth: 1
+                            },
+                            {
+                                label: '평균 장학금 (원)',
+                                data: filteredData.map(d => d.scholarship),
+                                backgroundColor: 'rgba(16, 185, 129, 0.75)',
+                                borderColor: '#059669',
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: { display: true, text: '금액 (원)' }
+                            },
+                            x: {
+                                ticks: { font: { size: 10 }, maxRotation: 45 }
+                            }
+                        }
+                    }
+                };
+                document.getElementById('chart-insight-text').innerHTML = `
+                    <strong>등록금 vs 장학금 대조 인사이트:</strong> 고려대(752만원), 동국대(733만원), 가톨릭관동대(649만원), 대구대(608만원) 등 사립대의 등록금이 국립대(~330만원) 대비 2배 이상 높으나, 대구대(522만원 장학금)와 같이 적극적인 환원 정책을 펼치는 경향이 확인됩니다.
+                `;
+
+            } else if (mode === 'student_emp') {
+                // Scatter / Bubble representation of Student Size vs Employment Rate
+                const scatterData = masterDataset.filter(d => d.students > 10).map(d => ({
+                    x: d.students,
+                    y: d.emp,
+                    univ: d.univ,
+                    dept: d.dept,
+                    type: d.type
+                }));
+
+                chartConfig = {
+                    type: 'scatter',
+                    data: {
+                        datasets: [{
+                            label: '학과별 위치 (재학생 vs 취업률)',
+                            data: scatterData,
+                            backgroundColor: scatterData.map(d => d.type === '사립' ? 'rgba(99, 102, 241, 0.8)' : 'rgba(2, 132, 199, 0.8)'),
+                            pointRadius: 7,
+                            pointHoverRadius: 10
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(ctx) {
+                                        const p = ctx.raw;
+                                        return `${p.univ} (${p.dept}): 재학생 ${p.x}명 / 취업률 ${p.y}%`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: { display: true, text: '재학생 수 (명)' },
+                                beginAtZero: false
+                            },
+                            y: {
+                                title: { display: true, text: '취업률 (%)' },
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                };
+                document.getElementById('chart-insight-text').innerHTML = `
+                    <strong>재학생 규모 vs 취업률 인사이트:</strong> 대구대(136명), 고려대(152명), 가톨릭관동대(119명) 등 재학생 100명 이상의 대형 학과들이 자원 집중을 통해 33%~54%의 취업률을 안정적으로 방어하고 있습니다.
+                `;
+            }
+
+            chartInstance = new Chart(ctx, chartConfig);
         }
 
-        // Chart 2: Hourly Traffic Accidents (도로교통공단 TAAS)
-        function renderTrafficChart() {
-            const ctx = document.getElementById('trafficChart').getContext('2d');
-            const isDark = document.documentElement.classList.contains('dark');
-            const ticksColor = isDark ? '#94a3b8' : '#475569';
-            const labelColor = isDark ? '#f8fafc' : '#1e293b';
-            const gridColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
-
-            trafficChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['02시', '05시', '08시', '11시', '14시', '17시', '20시', '23시'],
-                    datasets: [{
-                        label: '보행자 사고 발생 건수',
-                        data: [120, 210, 850, 620, 780, 1420, 1150, 430],
-                        borderColor: '#f59e0b',
-                        backgroundColor: 'rgba(245, 158, 11, 0.15)',
-                        fill: true,
-                        tension: 0.4,
-                        borderWidth: 3,
-                        pointRadius: 5,
-                        pointBackgroundColor: '#f59e0b',
-                        pointHoverRadius: 7
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            labels: { color: labelColor, font: { family: 'Noto Sans KR' } }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: { color: gridColor },
-                            ticks: { color: ticksColor }
-                        },
-                        x: {
-                            grid: { color: gridColor },
-                            ticks: { color: ticksColor }
-                        }
-                    }
+        function switchChartTab(mode) {
+            ['soc_comp', 'geo_comp', 'tuition', 'student_emp'].forEach(m => {
+                const btn = document.getElementById(`chart-tab-${m}`);
+                if (m === mode) {
+                    btn.className = "px-3 py-1.5 rounded-md tab-btn-active transition";
+                } else {
+                    btn.className = "px-3 py-1.5 rounded-md tab-btn-inactive transition";
                 }
             });
+            initChart(mode);
         }
     </script>
 </body>
