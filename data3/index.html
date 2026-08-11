@@ -54,7 +54,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
                 <!-- Home Button -->
-                <a href="../index.html" class="p-2.5 bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white rounded-lg border border-slate-700 hover:border-blue-500 transition flex items-center gap-2 text-xs font-semibold shadow-sm" title="메인 메인페이지로 이동">
+                <a href="../index.html" class="p-2.5 bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white rounded-lg border border-slate-700 hover:border-blue-500 transition flex items-center gap-2 text-xs font-semibold shadow-sm" title="메인 페이지로 이동">
                     <i class="fa-solid fa-house text-sm"></i>
                     <span class="hidden sm:inline">홈으로</span>
                 </a>
@@ -216,6 +216,26 @@
                     </div>
                     <div class="relative h-72">
                         <canvas id="fatalityRateChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Video Section: Bicycle Accident Paradox Video -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 col-span-1 lg:col-span-2">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                                <i class="fa-solid fa-circle-play text-red-500"></i>
+                                자전거 사고 통계가 보여주는 역설 심층 영상
+                            </h3>
+                            <p class="text-xs text-slate-500">사고 건수 감소 속 사망자와 치사율이 급증하는 데드크로스(Dead Cross) 현상 및 지역별 격차 분석 영상</p>
+                        </div>
+                        <span class="text-xs px-2.5 py-1 bg-red-50 text-red-600 rounded-md font-mono font-semibold">MP4</span>
+                    </div>
+                    <div class="relative rounded-xl overflow-hidden bg-slate-900 aspect-video flex items-center justify-center border border-slate-200 shadow-inner max-h-[480px]">
+                        <video controls class="w-full h-full object-contain" preload="metadata">
+                            <source src="자전거_사고__통계가_보여주는_역설.mp4" type="video/mp4">
+                            <p class="text-white text-xs p-4">사용 중인 브라우저가 동영상 재생을 지원하지 않습니다.</p>
+                        </video>
                     </div>
                 </div>
             </div>
